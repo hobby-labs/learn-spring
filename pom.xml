@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.github.hobbylabs</groupId>
-	<artifactId>springtestsamples</artifactId>
+	<artifactId>learnspring</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>springtestsamples</name>
+	<name>learnspring</name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>
