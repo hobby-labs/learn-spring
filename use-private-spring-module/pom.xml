@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.2.9.RELEASE</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>com.example</groupId>
+	<artifactId>demo</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>demo</name>
+	<description>Demo project for Spring Boot</description>
+
+	<properties>
+		<java.version>1.8</java.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<scope>runtime</scope>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.junit.vintage</groupId>
+					<artifactId>junit-vintage-engine</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>com.github.hobbylabs.spring</groupId>
+			<artifactId>learnspringmodule</artifactId>
+			<version>0.0.7-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
+	<!--
+		Settings for GitLab Maven Repository (personal access token's method).
+		Replace the FQDN(gitlab.com) to your own if you are hosting GitLab on your environment.
+		And replace PROJECT_ID to your GitLab project's one.
+		You can find ti in settings page on your GitLab project.
+		Then you have to set credentials in your settings.xml then run `mvn deploy`.
+		You can see details at below page.
+		https://docs.gitlab.com/ee/user/packages/maven_repository/
+	-->
+	<repositories>
+		<repository>
+			<id>gitlab-maven</id>
+			<url>https://gitlab.com/api/v4/projects/PROJECT_ID/packages/maven</url>
+		</repository>
+	</repositories>
+	<distributionManagement>
+		<repository>
+			<id>gitlab-maven</id>
+			<url>https://gitlab.com/api/v4/projects/PROJECT_ID/packages/maven</url>
+		</repository>
+		<snapshotRepository>
+			<id>gitlab-maven</id>
+			<url>https://gitlab.com/api/v4/projects/PROJECT_ID/packages/maven</url>
+		</snapshotRepository>
+	</distributionManagement>
+
+	<!--
+		Settings for Azure Artifact.
+		Replace YOUR_FEED_NAME and YOUR_PROJECT_NAME to use this configuration.
+		And you have to set credentials in your settings.xml then run `mvn deploy`.
+		You can see details at below page.
+		https://docs.microsoft.com/en-us/azure/devops/artifacts/get-started-maven?view=azure-devops
+	-->
+	<!--
+	<repositories>
+		<repository>
+			<id>learnspringmodule</id>
+			<url>https://pkgs.dev.azure.com/YOUR_FEED_NAME/YOUR_PROJECT_NAME/_packaging/learnspringmodule/maven/v1</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+	<distributionManagement>
+		<repository>
+			<id>learnspringmodule</id>
+			<url>https://pkgs.dev.azure.com/YOUR_FEED_NAME/YOUR_PROJECT_NAME/_packaging/learnspringmodule/maven/v1</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</distributionManagement>
+	-->
+</project>
