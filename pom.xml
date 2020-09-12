@@ -11,7 +11,7 @@
 	<groupId>com.github.hobbylabs</groupId>
 	<artifactId>learnspring</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>learnspring</name>
+	<name>simple-rest-api</name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>
