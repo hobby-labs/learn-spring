@@ -46,13 +46,8 @@ public class HttpStatusHandlingController {
     @ResponseBody
     @ExceptionHandler(FooException.class)
     public Map<String, Object> handleFooException(FooException e) throws IOException {
-        //response.sendError(HttpStatus.UNAUTHORIZED.value());
-//        ErrorData result = new ErrorData();
-//        result.setErrorMessage("Foo exception");
-//        result.setStatus(HttpStatus.UNAUTHORIZED.value());
-
         Map<String, Object> result = new HashMap<>();
-        result.put("message", "foo");
+        result.put("message", "Error foo");
         e.printStackTrace();
 
         return result;
