@@ -19,6 +19,7 @@ public class HttpStatusHandlingController {
     ......
 
     @ResponseBody
+    @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
     @ExceptionHandler(FooException.class)
     public Map<String, Object> handleFooException(FooException e) throws IOException {
         Map<String, Object> result = new HashMap<>();
@@ -30,5 +31,8 @@ public class HttpStatusHandlingController {
 }
 ```
 
- If the controller throws FooException
+This program returns HTTP response code 406 with a body `{"message": "Error foo"}` if the controller throws FooException.
+
+## Reference:
+https://spring.io/blog/2013/11/01/exception-handling-in-spring-mvc
 
