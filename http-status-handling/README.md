@@ -35,4 +35,5 @@ This program returns HTTP response code 406 with a body `{"message": "Error foo"
 
 ## Reference:
 https://spring.io/blog/2013/11/01/exception-handling-in-spring-mvc
+https://github.com/paulc4/mvc-exceptions
 
