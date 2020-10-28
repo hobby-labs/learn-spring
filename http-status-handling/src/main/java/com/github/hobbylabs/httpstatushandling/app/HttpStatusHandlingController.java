@@ -44,6 +44,7 @@ public class HttpStatusHandlingController {
     }
 
     @ResponseBody
+    @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
     @ExceptionHandler(FooException.class)
     public Map<String, Object> handleFooException(FooException e) throws IOException {
         Map<String, Object> result = new HashMap<>();
