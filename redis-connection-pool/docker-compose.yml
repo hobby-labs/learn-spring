@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+  redis:
+    container_name: spring-boot-redis
+    hostname: spring-boot-redis
+    image: redis
+    ports:
+      - "6379:6379"
+
+  cluster-test-redis:
+    image: redis:latest
+    container_name: cluster-test-redis
+    volumes:
+      - ./docker/redis/redis.conf:/data/conf/redis.conf
+      - ./docker/redis/entrypoint.sh:/entrypoint.sh
+    command: /entrypoint.sh
+    #command: sleep 999999
+    ports:
+      - 10000:10000
+      - 10001:10001
+      - 10002:10002
+    networks:
+      app_net:
+        ipv4_address: 172.31.111.2
+
+networks:
+  app_net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.31.111.1/24
+          gateway: 172.31.111.1
+
+
