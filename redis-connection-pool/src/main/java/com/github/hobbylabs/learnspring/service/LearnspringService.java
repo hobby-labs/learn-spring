@@ -26,10 +26,7 @@ public class LearnspringService {
         ++result;
 
         redisTemplate.opsForValue().set(KEY_COUNTER, String.valueOf(result));
-
-        logger.info("======================================================");
-        logger.info(String.valueOf(result));
-        logger.info("======================================================");
+        logger.info("Redis counter: {}", String.valueOf(result));
 
         return result;
     }
