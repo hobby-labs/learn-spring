@@ -21,7 +21,7 @@ services:
       - 10001:10001
       - 10002:10002
     networks:
-      app_net:
+      redis-connection-pool-custom:
         ipv4_address: 172.31.111.2
 
 networks:
