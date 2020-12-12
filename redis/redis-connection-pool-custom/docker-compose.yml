@@ -1,14 +1,14 @@
 version: '3'
 
 services:
-  redis:
+  redis-connection-pool-custom:
     container_name: spring-boot-redis
     hostname: spring-boot-redis
     image: redis
     ports:
       - "6379:6379"
 
-  cluster-test-redis:
+  cluster-redis-connection-pool-custom:
     image: redis:latest
     container_name: cluster-test-redis
     volumes:
@@ -25,7 +25,7 @@ services:
         ipv4_address: 172.31.111.2
 
 networks:
-  app_net:
+  redis-connection-pool-custom:
     driver: bridge
     ipam:
       driver: default
