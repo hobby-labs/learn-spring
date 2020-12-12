@@ -1,16 +1,16 @@
 version: '3'
 
 services:
-  redis:
-    container_name: spring-boot-redis
-    hostname: spring-boot-redis
+  redis-connection-pool:
+    container_name: redis-connection-pool
+    hostname: redis-connection-pool
     image: redis
     ports:
       - "6379:6379"
 
-  cluster-test-redis:
+  cluster-redis-connection-pool:
     image: redis:latest
-    container_name: cluster-test-redis
+    container_name: cluster-redis-connection-pool
     volumes:
       - ./docker/redis/redis.conf:/data/conf/redis.conf
       - ./docker/redis/entrypoint.sh:/entrypoint.sh
@@ -25,7 +25,7 @@ services:
         ipv4_address: 172.31.111.2
 
 networks:
-  app_net:
+  redis-connection-pool:
     driver: bridge
     ipam:
       driver: default

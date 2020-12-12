@@ -2,15 +2,15 @@ version: '3'
 
 services:
   redis-connection-pool-custom:
-    container_name: spring-boot-redis
-    hostname: spring-boot-redis
+    container_name: redis-connection-pool-custom
+    hostname: redis-connection-pool-custom
     image: redis
     ports:
       - "6379:6379"
 
   cluster-redis-connection-pool-custom:
     image: redis:latest
-    container_name: cluster-test-redis
+    container_name: redis-connection-pool-custom
     volumes:
       - ./docker/redis/redis.conf:/data/conf/redis.conf
       - ./docker/redis/entrypoint.sh:/entrypoint.sh
