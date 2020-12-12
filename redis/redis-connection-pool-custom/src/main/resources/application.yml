@@ -1,5 +1,6 @@
 spring:
   profiles:
+    # You can switch a libraly lettuce or redis
     active: lettuce
   redis:
     host: 172.31.111.2
