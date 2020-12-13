@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
+
 @Service
 public class LearnspringService {
 
@@ -16,18 +18,22 @@ public class LearnspringService {
 
     private static final String KEY_COUNTER = "counter";
 
-    public int incrementCounter() {
-        String resultString = redisTemplate.opsForValue().get(KEY_COUNTER);
+    public long incrementCounter() {
+        long counter = redisTemplate.opsForValue().increment(KEY_COUNTER);
 
-        if (resultString == null) {
-            resultString = "0";
+        redisTemplate.opsForValue().set(KEY_COUNTER, String.valueOf(counter));
+        System.out.println(
+                new StringBuilder("Num of connections: ")
+                        .append(redisTemplate.getClientList().size())
+                        .append(", counter: ").append(counter));
+
+        return counter;
+    }
+
+    @PostConstruct
+    public void init() {
+        if (!redisTemplate.hasKey(KEY_COUNTER)) {
+            redisTemplate.opsForValue().set(KEY_COUNTER, "0");
         }
-        int result = Integer.parseInt(resultString);
-        ++result;
-
-        redisTemplate.opsForValue().set(KEY_COUNTER, String.valueOf(result));
-        logger.info("Redis counter: {}", String.valueOf(result));
-
-        return result;
     }
 }

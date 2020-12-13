@@ -18,11 +18,11 @@ public class LearnspringController {
     @RequestMapping(value = {"/something"}, method = RequestMethod.GET)
     public DataSomething getSomething() {
 
-        int result = service.incrementCounter();
+        long result = service.incrementCounter();
 
         DataSomething response = new DataSomething();
         response.setId(result);
-        response.setDescription("foo");
+        response.setDescription("Counter");
 
         return response;
     }

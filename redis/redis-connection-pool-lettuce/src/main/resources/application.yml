@@ -12,4 +12,5 @@ spring:
         max-idle: 12
         max-wait: 1000ms
         min-idle: 8
-        time-between-eviction-runs: 1
+        # time-between-eviction-runs of unit is ms.
+        time-between-eviction-runs: 60000
