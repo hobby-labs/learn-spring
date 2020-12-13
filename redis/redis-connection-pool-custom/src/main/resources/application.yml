@@ -1,4 +1,5 @@
 # This is a jedis configuration for multi connection pooling.
+# These properties will be used in RedisConnectionConfig.java and create Jedis connection pooling.
 spring:
   redis:
     host: localhost
