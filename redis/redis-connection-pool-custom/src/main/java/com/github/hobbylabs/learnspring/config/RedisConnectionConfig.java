@@ -7,6 +7,10 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisClientConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.GenericToStringSerializer;
+import org.springframework.data.redis.serializer.RedisSerializer;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 import redis.clients.jedis.JedisPoolConfig;
 
 // https://mashhurs.wordpress.com/2020/03/26/jedis-vs-lettuce-java-redis-clients/
@@ -40,6 +44,24 @@ public class RedisConnectionConfig {
     private int numTestsPerEvictionRun;
     @Value("${spring.redis.pool.set-block-when-exhausted:true}")
     private boolean setBlockWhenExhausted;
+
+    @Bean
+    public RedisTemplate<String, String> redisTemplate() {
+        RedisTemplate<String, String> template = new RedisTemplate<>();
+        template.setConnectionFactory(redisConnectionFactory());
+
+        // This is a patch not to put the unsupposed string like "\xac\xed\x00\x05t\x00\x05"
+        // in front of the key when see the keys with redis-cli.
+        // See description: https://qiita.com/taka_22/items/673bb2e6bf7d4a303447
+        RedisSerializer stringSerializer = new StringRedisSerializer();
+        template.setKeySerializer(stringSerializer);
+        template.setValueSerializer(stringSerializer);
+        template.afterPropertiesSet();
+        //template.setHashKeySerializer(stringSerializer);
+        //template.setHashValueSerializer(stringSerializer);
+
+        return template;
+    }
 
     @Bean
     public RedisConnectionFactory redisConnectionFactory() {
