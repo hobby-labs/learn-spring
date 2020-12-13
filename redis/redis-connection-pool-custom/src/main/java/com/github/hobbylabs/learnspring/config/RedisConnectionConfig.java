@@ -21,55 +21,57 @@ import java.time.Duration;
 @Configuration
 public class RedisConnectionConfig {
 
-    @Value("${spring.profiles.active}")
-    private String activeProfile;
-
     @Value("${spring.redis.host}")
     private String host;
 
     @Value("${spring.redis.port}")
     private int port;
 
+    @Value("${spring.redis.pool.max-total}")
+    private int maxTotal;
+    @Value("${spring.redis.pool.max-idle}")
+    private int maxIdle;
+    @Value("${spring.redis.pool.min-idle}")
+    private int minIdle;
+    @Value("${spring.redis.pool.test-on-borrow}")
+    private boolean testOnBorrow;
+    @Value("${spring.redis.pool.test-on-return}")
+    private boolean testOnReturn;
+    @Value("${spring.redis.pool.test-while-idle}")
+    private boolean testWhileIdle;
+    @Value("${spring.redis.pool.min-evictable-idle-time-millis}")
+    private int minEvictableIdleTimeMillis;
+    @Value("${spring.redis.pool.time-tetween-eviction-runs-millis}")
+    private int timeBetweenEvictionRunsMillis;
+    @Value("${spring.redis.pool.num-tests-per-eviction-run:3}")
+    private int numTestsPerEvictionRun;
+    @Value("${spring.redis.pool.set-block-when-exhausted:true}")
+    private boolean setBlockWhenExhausted;
+
     @Bean
     public RedisConnectionFactory redisConnectionFactory() {
-        if (activeProfile.equals("lettuce")) {
-            LettuceClientConfiguration lettuceClientConfiguration =
-                    LettuceClientConfiguration.builder()
-                            .commandTimeout(Duration.ofSeconds(2000))
-                            .clientOptions(ClientOptions.builder().build())
-                            .build();
+        RedisStandaloneConfiguration redisStandaloneConfiguration
+                = new RedisStandaloneConfiguration(host, port);
+        redisStandaloneConfiguration.setDatabase(0);
 
-            RedisClusterConfiguration clusterConfiguration = new RedisClusterConfiguration();
-            clusterConfiguration.clusterNode(host, port);
-            //new LettuceConnectionFactory(clusterConfiguration);
+        JedisClientConfiguration.JedisClientConfigurationBuilder builder = JedisClientConfiguration.builder();
+        JedisClientConfiguration config = builder.usePooling().poolConfig(jedisPoolConfig()).build();
 
-            return new LettuceConnectionFactory(clusterConfiguration, lettuceClientConfiguration);
-        } else {
-            RedisStandaloneConfiguration redisStandaloneConfiguration =
-                    new RedisStandaloneConfiguration(host, port);
-            redisStandaloneConfiguration.setDatabase(0);
-
-            // Pool config
-            JedisClientConfiguration.JedisPoolingClientConfigurationBuilder jpccb =
-                    (JedisClientConfiguration.JedisPoolingClientConfigurationBuilder)JedisClientConfiguration.builder();
-            jpccb.poolConfig(jedisPoolConfig());
-
-            return new JedisConnectionFactory(redisStandaloneConfiguration, jpccb.build());
-        }
+        return new JedisConnectionFactory(redisStandaloneConfiguration, config);
     }
 
     private JedisPoolConfig jedisPoolConfig() {
         final JedisPoolConfig poolConfig = new JedisPoolConfig();
-        poolConfig.setMaxTotal(128);
-        poolConfig.setMaxIdle(128);
-        poolConfig.setMinIdle(36);
-        poolConfig.setTestOnBorrow(true);
-        poolConfig.setTestOnReturn(true);
-        poolConfig.setTestWhileIdle(true);
-        poolConfig.setMinEvictableIdleTimeMillis(Duration.ofSeconds(60).toMillis());
-        poolConfig.setTimeBetweenEvictionRunsMillis(Duration.ofSeconds(30).toMillis());
-        poolConfig.setNumTestsPerEvictionRun(3);
-        poolConfig.setBlockWhenExhausted(true);
+        poolConfig.setMaxTotal(maxTotal);
+        poolConfig.setMaxIdle(maxIdle);
+        poolConfig.setMinIdle(minIdle);
+        poolConfig.setTestOnBorrow(testOnBorrow);
+        poolConfig.setTestOnReturn(testOnReturn);
+        poolConfig.setTestWhileIdle(testWhileIdle);
+        poolConfig.setMinEvictableIdleTimeMillis(minEvictableIdleTimeMillis);
+        poolConfig.setTimeBetweenEvictionRunsMillis(timeBetweenEvictionRunsMillis);
+        poolConfig.setNumTestsPerEvictionRun(numTestsPerEvictionRun);
+        poolConfig.setBlockWhenExhausted(setBlockWhenExhausted);
         return poolConfig;
     }
 }

@@ -1,9 +1,17 @@
+# This is a jedis configuration for multi connection pooling.
 spring:
-  profiles:
-    # You can switch a libraly lettuce or redis
-    active: lettuce
   redis:
-    host: 172.31.111.2
-    port: 10001
+    host: localhost
+    port: 6379
     database: 0
     password: secret
+    pool:
+      max-total: 32
+      max-idle: 24
+      min-idle: 8
+      test-on-borrow: true
+      test-on-return: true
+      test-while-idle: true
+      min-evictable-idle-time-millis: 60000
+      time-tetween-eviction-runs-millis: 30000
+      set-block-when-exhausted: true

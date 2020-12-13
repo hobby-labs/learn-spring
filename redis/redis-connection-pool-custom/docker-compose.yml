@@ -7,10 +7,13 @@ services:
     image: redis
     ports:
       - "6379:6379"
+    networks:
+      redis-connection-pool-custom:
+        ipv4_address: 172.31.112.2
 
   cluster-redis-connection-pool-custom:
     image: redis:latest
-    container_name: redis-connection-pool-custom
+    container_name: cluster-redis-connection-pool-custom
     volumes:
       - ./docker/redis/redis.conf:/data/conf/redis.conf
       - ./docker/redis/entrypoint.sh:/entrypoint.sh
@@ -22,7 +25,7 @@ services:
       - 10002:10002
     networks:
       redis-connection-pool-custom:
-        ipv4_address: 172.31.111.2
+        ipv4_address: 172.31.112.3
 
 networks:
   redis-connection-pool-custom:
@@ -30,7 +33,7 @@ networks:
     ipam:
       driver: default
       config:
-        - subnet: 172.31.111.1/24
-          gateway: 172.31.111.1
+        - subnet: 172.31.112.1/24
+          gateway: 172.31.112.1
 
 
