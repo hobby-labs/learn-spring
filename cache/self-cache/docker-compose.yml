@@ -9,6 +9,7 @@ services:
       - "3306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: secret
-      MYSQL_DATABASE: self_cache
+      MYSQL_DATABASE: shop
     volumes:
       - ./sql/:/docker-entrypoint-initdb.d/
+
