@@ -1,10 +1,14 @@
 package com.github.hobbylabs.learnspring.service;
 
+import com.github.hobbylabs.learnspring.mapper.CustomerMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Service
 public class LearnspringService {
@@ -12,25 +16,29 @@ public class LearnspringService {
     private static Logger logger = LoggerFactory.getLogger(LearnspringService.class);
 
     @Autowired
-    private StringRedisTemplate redisTemplate;
+    private CustomerMapper mapper;
 
-    private static final String KEY_COUNTER = "counter";
+    private Set<String> cacheCustomerNameSet;
 
-    public int incrementCounter() {
-        String resultString = redisTemplate.opsForValue().get(KEY_COUNTER);
+    private long cacheAgeInMillis = 10000L;
 
-        if (resultString == null) {
-            resultString = "0";
+    private long mapperCreatedDateInMillis = 0L;
+
+    public void validateCustomers(List<String> customers) {
+        Set<String> customerNameSet = getCustomerMapper();
+    }
+
+    public Set<String> getCustomerMapper() {
+        long currentTimeMillis = System.currentTimeMillis();
+
+        if(currentTimeMillis > (mapperCreatedDateInMillis + cacheAgeInMillis)) {
+            // Lazy synchronization.
+            // Change cache cacheCustomerNameSet if cache age were expired.
+            mapperCreatedDateInMillis = currentTimeMillis;
+            List<String> customerDtoList = mapper.selectNameAll();
+            cacheCustomerNameSet = new HashSet<>(customerDtoList);
         }
-        int result = Integer.parseInt(resultString);
-        ++result;
 
-        redisTemplate.opsForValue().set(KEY_COUNTER, String.valueOf(result));
-
-        logger.info("======================================================");
-        logger.info(String.valueOf(result));
-        logger.info("======================================================");
-
-        return result;
+        return cacheCustomerNameSet;
     }
 }
