@@ -11,9 +11,9 @@ import java.util.List;
 import java.util.Set;
 
 @Service
-public class LearnspringService {
+public class LearnSpringService {
 
-    private static Logger logger = LoggerFactory.getLogger(LearnspringService.class);
+    private static Logger logger = LoggerFactory.getLogger(LearnSpringService.class);
 
     @Autowired
     private CustomerMapper mapper;
