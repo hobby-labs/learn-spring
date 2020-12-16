@@ -1,7 +1,7 @@
 package com.github.hobbylabs.learnspring.controller;
 
 import com.github.hobbylabs.learnspring.data.DataSomething;
-import com.github.hobbylabs.learnspring.service.LearnspringService;
+import com.github.hobbylabs.learnspring.service.LearnSpringService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,7 +16,7 @@ import java.util.ArrayList;
 public class LearnspringController {
 
     @Autowired
-    private LearnspringService service;
+    private LearnSpringService service;
 
     @RequestMapping(value = {"/something"}, method = RequestMethod.GET)
     public DataSomething getSomething() {

@@ -4,6 +4,7 @@ import com.github.hobbylabs.learnspring.mapper.CustomerMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -20,7 +21,8 @@ public class LearnSpringService {
 
     private Set<String> cacheCustomerNameSet;
 
-    private long cacheAgeInMillis = 10000L;
+    @Value("${com.github.hobbylabs.learnspring.service.LearnSpringService.cacheAgeInMillis:60000}")
+    private long cacheAgeInMillis;
 
     private long mapperCreatedDateInMillis = 0L;
 
