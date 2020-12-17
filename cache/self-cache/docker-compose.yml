@@ -1,9 +1,15 @@
 version: '3'
 
 services:
-  redis-connection-pool:
-    container_name: redis-connection-pool
-    hostname: redis-connection-pool
-    image: redis
+  self-cache-mariadb:
+    container_name: self-cache-mysql
+    hostname: self-cache-mysql
+    image: mysql:8
     ports:
-      - "6379:6379"
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: shop
+    volumes:
+      - ./sql/:/docker-entrypoint-initdb.d/
+

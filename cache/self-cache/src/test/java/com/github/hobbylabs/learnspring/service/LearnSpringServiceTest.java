@@ -6,14 +6,12 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mockito.Mockito;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +26,11 @@ import static org.mockito.Mockito.times;
 //@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 //@EnableAutoConfiguration(exclude={DataSourceAutoConfiguration.class})
 
+// @SpringBootTest(properties = { "com.github.hobbylabs.learnspring.service.LearnSpringService.cacheAgeInMillis=3000" })
+
 @ExtendWith(MockitoExtension.class)
+@SpringBootTest
+@EnableAutoConfiguration(exclude={DataSourceAutoConfiguration.class})
 public class LearnSpringServiceTest {
 
     @InjectMocks
@@ -52,11 +54,44 @@ public class LearnSpringServiceTest {
     public void testGetCustomerMapperShouldReturnSetOfCacheIfTheTimeOfCacheWasValid() {
         Mockito.when(mapper.selectNameAll()).thenReturn(createList());
 
+        List<String> data = createList();
         Set<String> set = learnSpringService.getCustomerMapper();
+
+        int firstHash = learnSpringService.getCustomerMapper().hashCode();
+        int secondHash = learnSpringService.getCustomerMapper().hashCode();
+
+        assertThat(firstHash == secondHash);
+        Mockito.verify(mapper, times(1)).selectNameAll();
+    }
+
+    @Test
+    public void testPerfoamance() {
+        Mockito.when(mapper.selectNameAll()).thenReturn(createList());
+
+        List<String> data = createList();
+        Set<String> set = learnSpringService.getCustomerMapper();
+
         int firstHash = set.hashCode();
+        for(int i = 0; i < 1000; i++) {
+            set = learnSpringService.getCustomerMapper();
+            for(String s: data) {
+                set.contains(s);
+            }
+        }
+
         int secondHash = set.hashCode();
 
         assertThat(firstHash == secondHash);
+        Mockito.verify(mapper, times(1)).selectNameAll();
+    }
+
+    @Test
+    public void testGetCustomerMapperShouldReturnNewSetIfTheTimeOfCacheWasNotValid() {
+        Mockito.when(mapper.selectNameAll()).thenReturn(createList());
+
+        Set<String> set = learnSpringService.getCustomerMapper();
+        int firstHash = set.hashCode();
+
     }
 
     private List<String> createList() {

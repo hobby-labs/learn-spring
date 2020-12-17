@@ -13,16 +13,16 @@ import java.util.ArrayList;
 
 @RestController
 @RequestMapping("/api/v1")
-public class LearnspringController {
+public class LearnSpringController {
 
     @Autowired
-    private LearnSpringService service;
+    private LearnSpringService learnSpringService;
 
     @RequestMapping(value = {"/something"}, method = RequestMethod.GET)
     public DataSomething getSomething() {
 
         List<String> list = new ArrayList<>();
-        service.validateCustomers(list);
+        learnSpringService.validateCustomers(list);
 
         return null;
     }

@@ -17,7 +17,7 @@ public class LearnSpringService {
     private static Logger logger = LoggerFactory.getLogger(LearnSpringService.class);
 
     @Autowired
-    private CustomerMapper mapper;
+    private CustomerMapper customerMapper;
 
     private Set<String> cacheCustomerNameSet;
 
@@ -37,7 +37,7 @@ public class LearnSpringService {
             // Lazy synchronization.
             // Change cache cacheCustomerNameSet if cache age were expired.
             mapperCreatedDateInMillis = currentTimeMillis;
-            List<String> customerDtoList = mapper.selectNameAll();
+            List<String> customerDtoList = customerMapper.selectNameAll();
             cacheCustomerNameSet = new HashSet<>(customerDtoList);
         }
 
