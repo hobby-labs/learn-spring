@@ -1,0 +1,7 @@
+com:
+  github:
+    hobbylabs:
+      learnspring:
+        service:
+          LearnSpringService:
+            cacheAgeInMillis: 1000
