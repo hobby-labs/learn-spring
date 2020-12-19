@@ -2,12 +2,12 @@
 # Multi connection pooling with lettuce will not improbe performance.
 # If you specify "spring.redis.jedis" to use jedis, multi connection pooling does not work for some reason...
 # See another example to use jedis with multi connection pooling.
-#spring:
-#  jpa.hibernate.ddl-auto: update
-#  datasource:
-#    url: jdbc:mysql://localhost:3306/shop
-#    username: root
-#    password: secret
+spring:
+  jpa.hibernate.ddl-auto: update
+  datasource:
+    url: jdbc:mysql://localhost:3306/shop
+    username: root
+    password: secret
 
 com:
   github:

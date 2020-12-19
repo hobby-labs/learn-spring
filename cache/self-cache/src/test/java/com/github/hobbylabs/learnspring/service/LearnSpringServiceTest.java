@@ -1,12 +1,23 @@
 package com.github.hobbylabs.learnspring.service;
 
+import com.github.hobbylabs.learnspring.mapper.CustomerMapper;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.times;
 
 //@ExtendWith(SpringExtension.class)
 ////@MybatisTest
@@ -15,29 +26,29 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 // @SpringBootTest(properties = { "com.github.hobbylabs.learnspring.service.LearnSpringService.cacheAgeInMillis=3000" })
 
-//@ExtendWith(MockitoExtension.class)
+@ExtendWith(MockitoExtension.class)
 @SpringBootTest
-@EnableAutoConfiguration(exclude={DataSourceAutoConfiguration.class})
+//@EnableAutoConfiguration(exclude={DataSourceAutoConfiguration.class})
 public class LearnSpringServiceTest {
 
-//    @InjectMocks
-//    private LearnSpringService learnSpringService;
-//    @Mock
-//    private CustomerMapper mapper;
+    @InjectMocks
+    private LearnSpringService learnSpringService;
+    @Mock
+    private CustomerMapper customerMapper;
 
     @Test
     public void testGetCustomerMapperShouldReturnSetOfNames() {
-//        Mockito.when(mapper.selectNameAll()).thenReturn(createList());
-//
-//        Set<String> set = learnSpringService.getCustomerMapper();
-//
-//        // assertions
-//        assertEquals(200, set.size());
-//        for(int i = 0; i < 200; i++) { assertThat(set.contains("Name " + i)); }
-//        Mockito.verify(mapper, times(1)).selectNameAll();
+        Mockito.when(customerMapper.selectNameAll()).thenReturn(createList());
+
+        Set<String> set = learnSpringService.getCustomerMapper();
+
+        // assertions
+        assertEquals(200, set.size());
+        for(int i = 0; i < 200; i++) { assertThat(set.contains("Name " + i)); }
+        Mockito.verify(customerMapper, times(1)).selectNameAll();
         assertThat(true);
     }
-//
+
 //    @Test
 //    public void testGetCustomerMapperShouldReturnSetOfCacheIfTheTimeOfCacheWasValid() {
 //        Mockito.when(mapper.selectNameAll()).thenReturn(createList());
@@ -82,13 +93,18 @@ public class LearnSpringServiceTest {
 //
 //    }
 //
-//    private List<String> createList() {
-//        List<String> result = new ArrayList<>();
-//
-//        for(int i = 0; i < 200; i++) {
-//            result.add("Name " + i);
-//        }
-//
-//        return result;
-//    }
+
+    /**
+     * Create dummy list for testing.
+     * @return List of the names
+     */
+    private List<String> createList() {
+        List<String> result = new ArrayList<>();
+
+        for(int i = 0; i < 200; i++) {
+            result.add("Name " + i);
+        }
+
+        return result;
+    }
 }
