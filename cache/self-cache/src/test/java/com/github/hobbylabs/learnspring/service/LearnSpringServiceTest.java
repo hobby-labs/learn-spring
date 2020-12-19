@@ -1,6 +1,7 @@
 package com.github.hobbylabs.learnspring.service;
 
 import com.github.hobbylabs.learnspring.mapper.CustomerMapper;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -24,10 +25,10 @@ import static org.mockito.Mockito.times;
 //@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 //@EnableAutoConfiguration(exclude={DataSourceAutoConfiguration.class})
 
-// @SpringBootTest(properties = { "com.github.hobbylabs.learnspring.service.LearnSpringService.cacheAgeInMillis=3000" })
+//@SpringBootTest(properties = { "com.github.hobbylabs.learnspring.service.LearnSpringService.cacheAgeInMillis=3000" })
 
 @ExtendWith(MockitoExtension.class)
-@SpringBootTest
+@SpringBootTest(properties = { "com.github.hobbylabs.learnspring.service.LearnSpringService.cacheAgeInMillis=3000" })
 //@EnableAutoConfiguration(exclude={DataSourceAutoConfiguration.class})
 public class LearnSpringServiceTest {
 
@@ -37,16 +38,36 @@ public class LearnSpringServiceTest {
     private CustomerMapper customerMapper;
 
     @Test
-    public void testGetCustomerMapperShouldReturnSetOfNames() {
+    @DisplayName(value="getCustomerMapper() should returns Set<String> that was filled by names")
+    public void testGetCustomerMapperShouldReturnsSetStringThatWasFilledByNames() {
         Mockito.when(customerMapper.selectNameAll()).thenReturn(createList());
 
         Set<String> set = learnSpringService.getCustomerMapper();
 
         // assertions
-        assertEquals(200, set.size());
-        for(int i = 0; i < 200; i++) { assertThat(set.contains("Name " + i)); }
+        assertThat(verifySet(set));
         Mockito.verify(customerMapper, times(1)).selectNameAll();
-        assertThat(true);
+    }
+
+    /**
+     * Verify the Set interface whether it was configured properly or not.
+     * @param set Set that was returnd Service class.
+     * @return result of the verification.
+     */
+    public boolean verifySet(Set<String> set) {
+        if (set.size() != 200) {
+            System.err.println("Set was not the appropriate size that was expected. (Expected size = " + 200 + ")");
+            return false;
+        }
+
+        for(int i = 0; i < 200; i++) {
+            if (!set.contains("Name " + i)) {
+                System.err.println("Could not be found \"Name " + i + "\" in the Set");
+                return false;
+            }
+        }
+
+        return true;
     }
 
 //    @Test

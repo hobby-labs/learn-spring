@@ -33,13 +33,13 @@ public class LearnSpringService {
     public Set<String> getCustomerMapper() {
         long currentTimeMillis = System.currentTimeMillis();
 
-//        if(currentTimeMillis > (mapperCreatedDateInMillis + cacheAgeInMillis)) {
-//            // Lazy synchronization.
-//            // Change cache cacheCustomerNameSet if cache age were expired.
-//            mapperCreatedDateInMillis = currentTimeMillis;
-//            List<String> customerDtoList = customerMapper.selectNameAll();
-//            cacheCustomerNameSet = new HashSet<>(customerDtoList);
-//        }
+        if(currentTimeMillis > (mapperCreatedDateInMillis + cacheAgeInMillis)) {
+            // Lazy synchronization.
+            // Change cache cacheCustomerNameSet if cache age were expired.
+            mapperCreatedDateInMillis = currentTimeMillis;
+            List<String> customerDtoList = customerMapper.selectNameAll();
+            cacheCustomerNameSet = new HashSet<>(customerDtoList);
+        }
 
         return cacheCustomerNameSet;
     }
