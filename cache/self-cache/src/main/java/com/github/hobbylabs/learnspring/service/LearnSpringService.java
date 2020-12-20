@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -41,12 +42,39 @@ public class LearnSpringService {
 //    }
 
     /**
-     * Valudate customers.
+     * Validate customers.
      * This method checks all customers exists in the customer mapper.
      * @param customers List of the customers.
+     * @return Result of the validation.
      */
-    public void validateCustomers(List<String> customers) {
+    public boolean validateCustomers(List<String> customers) {
         Set<String> customerNameSet = getCustomerSetCache();
+
+        for(String s : customers) {
+            if (!customerNameSet.contains(s)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Validate customers with list.
+     * This method checks all customers exists in the customer mapper.
+     * @param customers List of the customers.
+     * @return Result of the validation.
+     */
+    public boolean validateCustomersWithList(List<String> customers) {
+        List<String> customerNameList = getCustomerListCache();
+
+        for(String s : customers) {
+            if (!customerNameList.contains(s)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
@@ -65,12 +93,17 @@ public class LearnSpringService {
             cacheCustomerNameSet = new HashSet<>(customerDtoList);
         }
 
-        LOGGER.info("cacheAgeInMillis: " + cacheAgeInMillis + ", currentTimeMillis("
-                + currentTimeMillis + ") > (mapperCreatedDateInMillis("
-                + mapperCreatedDateInMillis + ") + cacheAgeInMillis(" + cacheAgeInMillis + "))"
-                + ", Hash of cacheCustomerNameSet: " + cacheCustomerNameSet.hashCode());
+//        LOGGER.info("cacheAgeInMillis: " + cacheAgeInMillis + ", currentTimeMillis("
+//                + currentTimeMillis + ") > (mapperCreatedDateInMillis("
+//                + mapperCreatedDateInMillis + ") + cacheAgeInMillis(" + cacheAgeInMillis + "))"
+//                + ", Hash of cacheCustomerNameSet: " + cacheCustomerNameSet.hashCode());
 
         return cacheCustomerNameSet;
+    }
+
+    @PostConstruct
+    public void initCaches() {
+        getCustomerSetCache();
     }
 
     /**
@@ -78,11 +111,7 @@ public class LearnSpringService {
      * It will returns the cached list if cache of MyBatis is NOT expired.
      * @return
      */
-//    public List<String> getCustomerListCache() {
-//        return customerMapper.selectNameAll();
-//    }
-
     public List<String> getCustomerListCache() {
-        return null;
+        return customerMapper.selectNameAll();
     }
 }

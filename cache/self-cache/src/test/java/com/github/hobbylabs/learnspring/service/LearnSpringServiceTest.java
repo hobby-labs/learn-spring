@@ -22,7 +22,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.times;
 
 @ExtendWith({ MockitoExtension.class, SpringExtension.class })
-
 //@SpringBootTest(properties = { "com.github.hobbylabs.learnspring.service.LearnSpringService.cacheAgeInMillis=1499" })  // This will set a specific property on the fly
 @SpringBootTest
 @ActiveProfiles("test")  // This loads application-test.yml in the directory /test/java/resources.

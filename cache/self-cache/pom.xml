@@ -71,6 +71,7 @@
 			<scope>test</scope>
 		</dependency>
 
+		<!-- hsqldb is necessary to test mybatis-spring-boot-starter-test. https://qiita.com/yuji38kwmt/items/fee402fdfafa23ce12b5 -->
 		<dependency>
 			<groupId>org.hsqldb</groupId>
 			<artifactId>hsqldb</artifactId>
