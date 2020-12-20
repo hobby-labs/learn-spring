@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -15,19 +14,18 @@ import java.util.Set;
 @Service
 public class LearnSpringService {
 
-    private static Logger logger = LoggerFactory.getLogger(LearnSpringService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(LearnSpringService.class);
 
-//    @Autowired
-//    private CustomerMapper customerMapper;
-
+    /** Mapper of a customer DB table. */
     private final CustomerMapper customerMapper;
 
-//    @Value("${com.github.hobbylabs.learnspring.service.LearnSpringService.cacheAgeInMillis:2000}")
-//    private long cacheAgeInMillis;
+    /** Cache age of the customer name set. New customer name set will be created if this age is expired. */
     private final long cacheAgeInMillis;
 
+    /** Created date of the instance of customer name set*/
     private long mapperCreatedDateInMillis = 0L;
 
+    /** customer name set by customers table in the DB */
     private Set<String> cacheCustomerNameSet;
 
     @Autowired
@@ -40,23 +38,32 @@ public class LearnSpringService {
         this.cacheAgeInMillis = cacheAgeInMillis;
     }
 
+    /**
+     * Valudate customers.
+     * This method checks all customers exists in the customer mapper.
+     * @param customers List of the customers.
+     */
     public void validateCustomers(List<String> customers) {
-        Set<String> customerNameSet = getCustomerMapper();
+        Set<String> customerNameSet = getCustomerMapperCache();
     }
 
-    public Set<String> getCustomerMapper() {
+    /**
+     * Get customer mapper.
+     * It will returns the cached mapper if cacheAgeInMillis is not expired.
+     * @return Cached customer mapper if enabled. If not, returns new customer mapper.
+     */
+    public Set<String> getCustomerMapperCache() {
         long currentTimeMillis = System.currentTimeMillis();
 
         if(currentTimeMillis > (mapperCreatedDateInMillis + cacheAgeInMillis)) {
             // Lazy synchronization. Update cacheCustomerNameSet if cache age were expired.
             // If we want to be more restrict, use volatile to cacheCustomerNameSet.
             mapperCreatedDateInMillis = currentTimeMillis;
-            ////List<String> customerDtoList = customerMapper.selectNameAll();
-            ////cacheCustomerNameSet = new HashSet<>(customerDtoList);
-            cacheCustomerNameSet = new HashSet<>(new ArrayList<>());
+            List<String> customerDtoList = customerMapper.selectNameAll();
+            cacheCustomerNameSet = new HashSet<>(customerDtoList);
         }
 
-        System.out.println("cacheAgeInMillis: " + cacheAgeInMillis + ", Hash of cacheCustomerNameSet: " + cacheCustomerNameSet.hashCode());
+        LOGGER.info("cacheAgeInMillis: " + cacheAgeInMillis + ", Hash of cacheCustomerNameSet: " + cacheCustomerNameSet.hashCode());
 
         return cacheCustomerNameSet;
     }
