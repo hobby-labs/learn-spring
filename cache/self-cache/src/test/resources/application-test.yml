@@ -4,4 +4,4 @@ com:
       learnspring:
         service:
           LearnSpringService:
-            cacheAgeInMillis: 1000
+            cacheAgeInMillis: 1498

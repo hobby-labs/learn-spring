@@ -21,6 +21,7 @@ public class LearnSpringService {
     private CustomerMapper customerMapper;
 
     /** Cache age of the customer name set. New customer name set will be created if this age is expired. */
+    @Value("${com.github.hobbylabs.learnspring.service.LearnSpringService.cacheAgeInMillis:60000}")
     private long cacheAgeInMillis;
 
     /** Created date of the instance of customer name set*/
@@ -64,7 +65,10 @@ public class LearnSpringService {
             cacheCustomerNameSet = new HashSet<>(customerDtoList);
         }
 
-        // LOGGER.info("cacheAgeInMillis: " + cacheAgeInMillis + ", Hash of cacheCustomerNameSet: " + cacheCustomerNameSet.hashCode());
+        LOGGER.info("cacheAgeInMillis: " + cacheAgeInMillis + ", currentTimeMillis("
+                + currentTimeMillis + ") > (mapperCreatedDateInMillis("
+                + mapperCreatedDateInMillis + ") + cacheAgeInMillis(" + cacheAgeInMillis + "))"
+                + ", Hash of cacheCustomerNameSet: " + cacheCustomerNameSet.hashCode());
 
         return cacheCustomerNameSet;
     }

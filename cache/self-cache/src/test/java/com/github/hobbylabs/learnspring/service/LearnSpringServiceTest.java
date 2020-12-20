@@ -1,7 +1,6 @@
 package com.github.hobbylabs.learnspring.service;
 
 import com.github.hobbylabs.learnspring.mapper.CustomerMapper;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -9,7 +8,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
@@ -20,16 +22,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.times;
 
 @ExtendWith({ MockitoExtension.class, SpringExtension.class })
-//@TestPropertySource(locations = { "classpath:application.yml" })
-//@TestPropertySource(locations = { "classpath:application.yml" })
-//@ActiveProfiles("test")
-//@SpringBootTest(properties = { "com.github.hobbylabs.learnspring.service.LearnSpringService.cacheAgeInMillis=2000" })
+
+//@SpringBootTest(properties = { "com.github.hobbylabs.learnspring.service.LearnSpringService.cacheAgeInMillis=1499" })  // This will set a specific property on the fly
 @SpringBootTest
-//@ContextConfiguration(classes = LearnSpringService.class)
-//@TestPropertySource(properties="com.github.hobbylabs.learnspring.service.LearnSpringService.cacheAgeInMillis=2000")
+@ActiveProfiles("test")  // This loads application-test.yml in the directory /test/java/resources.
 //@EnableAutoConfiguration(exclude={DataSourceAutoConfiguration.class})
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class LearnSpringServiceTest {
 
+    @Autowired
     @InjectMocks
     private LearnSpringService learnSpringService;
 
