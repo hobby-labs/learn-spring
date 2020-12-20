@@ -17,10 +17,11 @@ public class LearnSpringService {
     private static final Logger LOGGER = LoggerFactory.getLogger(LearnSpringService.class);
 
     /** Mapper of a customer DB table. */
-    private final CustomerMapper customerMapper;
+    @Autowired
+    private CustomerMapper customerMapper;
 
     /** Cache age of the customer name set. New customer name set will be created if this age is expired. */
-    private final long cacheAgeInMillis;
+    private long cacheAgeInMillis;
 
     /** Created date of the instance of customer name set*/
     private long mapperCreatedDateInMillis = 0L;
@@ -28,15 +29,15 @@ public class LearnSpringService {
     /** customer name set by customers table in the DB */
     private Set<String> cacheCustomerNameSet;
 
-    @Autowired
-    public LearnSpringService(
-            CustomerMapper customerMapper,
-            @Value("${com.github.hobbylabs.learnspring.service.LearnSpringService.cacheAgeInMillis:2000}") long cacheAgeInMillis) {
-        // Add @Autowired to the constructor to be testable.
-        // https://tedvinke.wordpress.com/2014/02/13/mockito-why-you-should-not-use-injectmocks-annotation-to-autowire-fields/
-        this.customerMapper = customerMapper;
-        this.cacheAgeInMillis = cacheAgeInMillis;
-    }
+//    @Autowired
+//    public LearnSpringService(
+//            CustomerMapper customerMapper,
+//            @Value("${com.github.hobbylabs.learnspring.service.LearnSpringService.cacheAgeInMillis:2000}") long cacheAgeInMillis) {
+//        // Add @Autowired to the constructor to be testable.
+//        // https://tedvinke.wordpress.com/2014/02/13/mockito-why-you-should-not-use-injectmocks-annotation-to-autowire-fields/
+//        this.customerMapper = customerMapper;
+//        this.cacheAgeInMillis = cacheAgeInMillis;
+//    }
 
     /**
      * Valudate customers.
@@ -44,7 +45,7 @@ public class LearnSpringService {
      * @param customers List of the customers.
      */
     public void validateCustomers(List<String> customers) {
-        Set<String> customerNameSet = getCustomerMapperCache();
+        Set<String> customerNameSet = getCustomerSetCache();
     }
 
     /**
@@ -52,7 +53,7 @@ public class LearnSpringService {
      * It will returns the cached mapper if cacheAgeInMillis is not expired.
      * @return Cached customer mapper if enabled. If not, returns new customer mapper.
      */
-    public Set<String> getCustomerMapperCache() {
+    public Set<String> getCustomerSetCache() {
         long currentTimeMillis = System.currentTimeMillis();
 
         if(currentTimeMillis > (mapperCreatedDateInMillis + cacheAgeInMillis)) {
@@ -63,8 +64,21 @@ public class LearnSpringService {
             cacheCustomerNameSet = new HashSet<>(customerDtoList);
         }
 
-        LOGGER.info("cacheAgeInMillis: " + cacheAgeInMillis + ", Hash of cacheCustomerNameSet: " + cacheCustomerNameSet.hashCode());
+        // LOGGER.info("cacheAgeInMillis: " + cacheAgeInMillis + ", Hash of cacheCustomerNameSet: " + cacheCustomerNameSet.hashCode());
 
         return cacheCustomerNameSet;
+    }
+
+    /**
+     * Get customer list.
+     * It will returns the cached list if cache of MyBatis is NOT expired.
+     * @return
+     */
+//    public List<String> getCustomerListCache() {
+//        return customerMapper.selectNameAll();
+//    }
+
+    public List<String> getCustomerListCache() {
+        return null;
     }
 }
