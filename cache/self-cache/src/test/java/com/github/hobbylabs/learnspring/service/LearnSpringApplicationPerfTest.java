@@ -56,7 +56,7 @@ public class LearnSpringApplicationPerfTest {
     @Test
     @DisplayName(value="validateCustomers() should be faster then validateCustomersWithList() in multi threaded environment")
     public void test0002() {
-        int numOfThread = 1;
+        int numOfThread = 4;
 
         ValidatorWithList[] validatorWithListsThreads   = new ValidatorWithList[numOfThread];
         Validator[] validatorThreads                    = new Validator[numOfThread];
