@@ -87,12 +87,6 @@ public class LearnSpringServiceTest {
         List<String> data = createList();
         Set<String> set = learnSpringService.getCustomerMapper();
 
-        // TODO: test
-        long cacheAge = learnSpringService.getCacheAgeInMillis();
-        System.out.println("===========================================================");
-        System.out.println(cacheAge);
-        System.out.println("===========================================================");
-
         int firstHash = learnSpringService.getCustomerMapper().hashCode();
         int secondHash = learnSpringService.getCustomerMapper().hashCode();
 

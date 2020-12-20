@@ -48,8 +48,8 @@ public class LearnSpringService {
         long currentTimeMillis = System.currentTimeMillis();
 
         if(currentTimeMillis > (mapperCreatedDateInMillis + cacheAgeInMillis)) {
-            // Lazy synchronization.
-            // Change cache cacheCustomerNameSet if cache age were expired.
+            // Lazy synchronization. Update cacheCustomerNameSet if cache age were expired.
+            // If we want to be more restrict, use volatile to cacheCustomerNameSet.
             mapperCreatedDateInMillis = currentTimeMillis;
             ////List<String> customerDtoList = customerMapper.selectNameAll();
             ////cacheCustomerNameSet = new HashSet<>(customerDtoList);
