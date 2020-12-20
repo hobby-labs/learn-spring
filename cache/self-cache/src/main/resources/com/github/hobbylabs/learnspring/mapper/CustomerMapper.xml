@@ -5,7 +5,7 @@
 <mapper namespace="com.github.hobbylabs.learnspring.mapper.CustomerMapper">
     <cache
             eviction="FIFO"
-            flushInterval="10000"
+            flushInterval="60000"
             size="512"
             readOnly="true"/>
     <select id="selectNameAll" resultType="com.github.hobbylabs.learnspring.dto.CustomerDto">

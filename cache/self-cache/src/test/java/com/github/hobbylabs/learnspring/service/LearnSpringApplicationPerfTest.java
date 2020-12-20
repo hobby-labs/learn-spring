@@ -12,6 +12,8 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.util.List;
+import java.util.function.Supplier;
+import java.util.stream.IntStream;
 
 @ExtendWith({ MockitoExtension.class, SpringExtension.class })
 @SpringBootTest
@@ -55,65 +57,67 @@ public class LearnSpringApplicationPerfTest {
 
     @Test
     @DisplayName(value="validateCustomers() should be faster then validateCustomersWithList() in multi threaded environment")
-    public void test0002() {
-        int numOfThread = 4;
-
-        ValidatorWithList[] validatorWithListsThreads   = new ValidatorWithList[numOfThread];
-        Validator[] validatorThreads                    = new Validator[numOfThread];
-
-        long resultCountValidatorWithLists              = 0L;
-        long resultCountValidator                       = 0L;
-
+    public void test0003() {
         List<String> customers = LearnSpringServiceTest.createList();
-        long durationOfPerfTestMillis = 60000L;
-        long startTime = 0L;
+        long duration = 60000L;
+        int numOfThread = 6;
+        long count = 0L;
 
-        // Perf with ValidatorWithList
-        System.out.println("Perf with ValidatorWithList");
-        startTime = System.currentTimeMillis();
-        for (int i = 0; i < validatorWithListsThreads.length; i++) {
-            validatorWithListsThreads[i] = new ValidatorWithList(learnSpringService, customers, startTime, durationOfPerfTestMillis);
-        }
-        for (int i = 0; i < validatorWithListsThreads.length; i++) {
-            validatorWithListsThreads[i].start();
-        }
-        for (int i = 0; i < validatorWithListsThreads.length; i++) {
-            try { validatorWithListsThreads[i].join(); } catch (InterruptedException e) { e.printStackTrace(); }
-        }
-        for (int i = 0; i < validatorWithListsThreads.length; i++) {
-            resultCountValidatorWithLists += validatorWithListsThreads[i].getCount();
-        }
-        System.out.println("Perf result of validateCustomersWithList() -> Threads: " + numOfThread
-                + ", Duration: " + durationOfPerfTestMillis + " ms, validationCount: " + resultCountValidatorWithLists);
+        System.out.println("Start perfValidatorWithList() ...");
+        count = perfValidatorWithList(learnSpringService, customers, System.currentTimeMillis(), duration, numOfThread);
+        System.out.println(
+                "Result of perfValidatorWithList() -> Duration: "
+                + duration + ", numOfThreads: " + numOfThread + ", count: " + count);
 
-        // Perf with Validator
-        System.out.println("Perf with Validator");
-        startTime = System.currentTimeMillis();
-        for (int i = 0; i < validatorThreads.length; i++) {
-            validatorThreads[i] = new Validator(learnSpringService, customers, startTime, durationOfPerfTestMillis);
-        }
-        for (int i = 0; i < validatorThreads.length; i++) {
-            validatorThreads[i].start();
-        }
-        for (int i = 0; i < validatorThreads.length; i++) {
-            try { validatorThreads[i].join(); } catch (InterruptedException e) { e.printStackTrace(); }
-        }
-        for (int i = 0; i < validatorThreads.length; i++) {
-            resultCountValidator += validatorThreads[i].getCount();
-        }
-        System.out.println("Perf result of validateCustomers() -> Threads: " + numOfThread
-                + ", Duration: " + durationOfPerfTestMillis + " ms, validationCount: " + resultCountValidator);
+        System.out.println("Start perfValidatorWithSet() ...");
+        count = perfValidatorWithSet(learnSpringService, customers, System.currentTimeMillis(), duration, numOfThread);
+        System.out.println(
+                "Result of perfValidatorWithSet() -> Duration: "
+                + duration + ", numOfThreads: " + numOfThread + ", count: " + count);
     }
 
+    public long perfValidatorWithList(
+            LearnSpringService service, List<String> customers, long startTime, long duration, int numOfThreads) {
+        return perfValidator(
+                service, customers, duration,
+                IntStream.range(0, numOfThreads).mapToObj(
+                        i -> new ValidatorWithList(service, customers, startTime, duration)).toArray(Validator[]::new)
+        );
+    }
 
-    static class Validator extends Thread {
+    public long perfValidatorWithSet(
+            LearnSpringService service, List<String> customers, long startTime, long duration, int numOfThreads) {
+        return perfValidator(
+                service, customers, duration,
+                IntStream.range(0, numOfThreads).mapToObj(
+                        i -> new ValidatorWithSet(service, customers, startTime, duration)).toArray(Validator[]::new)
+        );
+    }
 
-        private long count;
+    public long perfValidator(
+            LearnSpringService service, List<String> customers, long duration, Validator[] validators) {
+        long result = 0L;
 
-        private LearnSpringService service;
-        private List<String> customers;
-        private long startTime;
-        private long duration;
+        for (int i = 0; i < validators.length; i++) {
+            validators[i].start();
+        }
+        for (int i = 0; i < validators.length; i++) {
+            try { validators[i].join(); } catch (InterruptedException e) { e.printStackTrace(); }
+        }
+        for (int i = 0; i < validators.length; i++) {
+            result += validators[i].getCount();
+        }
+
+        return result;
+    }
+
+    static abstract class Validator extends Thread {
+        protected long count;
+
+        protected LearnSpringService service;
+        protected List<String> customers;
+        protected long startTime;
+        protected long duration;
 
         public Validator(LearnSpringService service, List<String> customers, long startTime, long duration) {
             this.service = service;
@@ -122,33 +126,27 @@ public class LearnSpringApplicationPerfTest {
             this.duration = duration;
         }
 
-        public void run() {
-            while (System.currentTimeMillis() < (startTime + duration)) {
-
-                service.validateCustomers(customers);
-                ++count;
-            }
-        }
-
         public long getCount() {
             return count;
         }
     }
 
-    static class ValidatorWithList extends Thread {
+    static class ValidatorWithSet extends Validator {
+        public ValidatorWithSet(LearnSpringService service, List<String> customers, long startTime, long duration) {
+            super(service, customers, startTime, duration);
+        }
 
-        private long count;
+        public void run() {
+            while (System.currentTimeMillis() < (startTime + duration)) {
+                service.validateCustomers(customers);
+                ++count;
+            }
+        }
+    }
 
-        private LearnSpringService service;
-        private List<String> customers;
-        private long startTime;
-        private long duration;
-
+    static class ValidatorWithList extends Validator {
         public ValidatorWithList(LearnSpringService service, List<String> customers, long startTime, long duration) {
-            this.service = service;
-            this.customers = customers;
-            this.startTime = startTime;
-            this.duration = duration;
+            super(service, customers, startTime, duration);
         }
 
         public void run() {
@@ -156,10 +154,6 @@ public class LearnSpringApplicationPerfTest {
                 service.validateCustomersWithList(customers);
                 ++count;
             }
-        }
-
-        public long getCount() {
-            return count;
         }
     }
 }
