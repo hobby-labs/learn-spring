@@ -1,0 +1,9 @@
+# https://docs.spring.io/spring-boot/docs/current/reference/html/appendix-application-properties.html
+# Multi connection pooling with lettuce will not improbe performance.
+# If you specify "spring.redis.jedis" to use jedis, multi connection pooling does not work for some reason...
+# See another example to use jedis with multi connection pooling.
+spring:
+  redis:
+    lettuce:
+      host: localhost
+      port: 6379
