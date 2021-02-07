@@ -14,7 +14,7 @@ public class CaffeineCacheConfig {
     @Bean
     public CacheManager cacheManager() {
         CaffeineCacheManager cacheManager = new CaffeineCacheManager();
-        cacheManager.setCacheSpecification("expireAfterWrite=15s");
+        cacheManager.setCacheSpecification("expireAfterWrite=60s");
         cacheManager.setCacheNames(Arrays.asList("product"));
 
         return cacheManager;

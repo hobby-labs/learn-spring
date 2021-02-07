@@ -2,8 +2,8 @@ version: '3'
 
 services:
   redis-connection-pool:
-    container_name: redis-connection-pool
-    hostname: redis-connection-pool
+    container_name: redis-use-caffeine
+    hostname: redis-use-caffeine
     image: redis
     ports:
       - "6379:6379"

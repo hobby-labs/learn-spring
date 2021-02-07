@@ -1,44 +1,46 @@
 package com.github.hobbylabs.spring.example.service;
 
 import com.github.hobbylabs.spring.example.data.Product;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Date;
 
 @Service
 public class ExampleService {
 
-    private final Map<String, Product> database = new HashMap<>();
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
 
     @Cacheable(cacheNames="product", sync=true)
     public Product getProductByName(String name) {
-        System.out.println("getProductByName(): Getting the product from the name " + name);
-        return getProduct(name);
+        System.out.println("getProductByName(): Getting the product from the name " + name + ": " + new Date());
+        return getRawProductByName(name);
     }
 
-    public Product getProduct(String name) {
+    public Product getRawProductByName(String name) {
         try {
             Thread.sleep(5000L);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        long price = Long.parseLong(stringRedisTemplate.opsForValue().get(name));
 
-        return database.get(name);
+        return new Product(name, price);
     }
 
     @CacheEvict("product")
     public Product evictCache(String name) {
-        return getProduct(name);
+        return getRawProductByName(name);
     }
 
-    @PostConstruct
-    public void init() {
-        database.put("Apple", new Product("Apple", 100));
-        database.put("Orange", new Product("Orange", 80));
+    public long setProduct(Product product) {
+        stringRedisTemplate.opsForValue().set(product.getName(), Long.toString(product.getPrice()));
+        return 1L;
     }
 }

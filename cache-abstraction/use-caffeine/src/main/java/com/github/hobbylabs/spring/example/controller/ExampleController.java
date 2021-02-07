@@ -23,4 +23,12 @@ public class ExampleController {
 
         return response;
     }
+
+    @RequestMapping(value = {"/setProduct"}, method = RequestMethod.POST)
+    public ResponseEntity<Void> getProduct(@RequestBody Product product) {
+        long resultCount = service.setProduct(product);
+        ResponseEntity<Void> response = new ResponseEntity<>(HttpStatus.OK);
+
+        return response;
+    }
 }
