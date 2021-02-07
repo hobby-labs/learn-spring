@@ -15,6 +15,8 @@ public class ExampleController {
     @Autowired
     private ExampleService service;
 
+    // curl -v http://localhost:8080/api/v1/getProduct/Apple
+    // curl -v http://localhost:8080/api/v1/getProduct/Orange
     @RequestMapping(value = {"/getProduct/{name}"}, method = RequestMethod.GET)
     public ResponseEntity<Product> getProduct(@PathVariable String name) {
         Product product = service.getProductByName(name);
@@ -22,6 +24,4 @@ public class ExampleController {
 
         return response;
     }
-
-
 }
