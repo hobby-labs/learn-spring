@@ -1,36 +1,44 @@
 package com.github.hobbylabs.learnspring.service;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 @Service
 public class LearnspringService {
 
-    private static Logger logger = LoggerFactory.getLogger(LearnspringService.class);
+    public int exec() throws IOException, InterruptedException {
+        ProcessBuilder pb = new ProcessBuilder("ls", "-l");
+        Process p = pb.start();
+        int ret = p.waitFor();
+        System.out.println("Return code is " + ret);
 
-    @Autowired
-    private StringRedisTemplate redisTemplate;
+        System.out.println("= Print getInputStream() ==============================================");
+        printInputStream(p.getInputStream());
+        System.out.println("= Print getErrorStream() ==============================================");
+        printInputStream(p.getErrorStream());
 
-    private static final String KEY_COUNTER = "counter";
+        return ret;
+    }
 
-    public int incrementCounter() {
-        String resultString = redisTemplate.opsForValue().get(KEY_COUNTER);
-
-        if (resultString == null) {
-            resultString = "0";
+    /**
+     * Output a stream.
+     * @param is Input stream. This might be InputStream or ErrorStream.
+     * @throws IOException IOException.
+     */
+    public static void printInputStream(InputStream is) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(is));
+        try {
+            for (;;) {
+                String line = br.readLine();
+                if (line == null) break;
+                System.out.println(line);
+            }
+        } finally {
+            br.close();
         }
-        int result = Integer.parseInt(resultString);
-        ++result;
-
-        redisTemplate.opsForValue().set(KEY_COUNTER, String.valueOf(result));
-
-        logger.info("======================================================");
-        logger.info(String.valueOf(result));
-        logger.info("======================================================");
-
-        return result;
     }
 }
