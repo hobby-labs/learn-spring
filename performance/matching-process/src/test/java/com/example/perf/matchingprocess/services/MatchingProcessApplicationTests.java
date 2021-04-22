@@ -15,6 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 @ExtendWith({ MockitoExtension.class, SpringExtension.class })
 @SpringBootTest
@@ -59,16 +60,22 @@ class MatchingProcessApplicationTests {
 
 	@Test
 	public void perfMappingProcess() {
-		testPerfMappingByList(100000, 20, sourceNameList);
+		try {
+			testPerfMatchingBySet(100000, 20, sourceNameList);
+			testPerfMatchingByList(100000, 20, sourceNameList);
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail();
+		}
 	}
 
-	public void testPerfMappingByList(long mappingCount, long round, List<String> sourceList) {
+	public void testPerfMatchingByList(long mappingCount, long round, List<String> sourceList) throws Exception {
 		System.out.println("Start running performance test: testPerfMappingByList() - mappingCount=" + mappingCount + ", round=" + round);
 		Instant startOuter = Instant.now();
 		for(long i = 0; i < round; ++i) {
 			Instant start = Instant.now();
 			for(long j = 0; j < mappingCount; ++j) {
-				service.mappingNamesByList(sourceList);
+				service.matchingNamesByList(sourceList);
 			}
 			Instant end = Instant.now();
 			System.out.println("Interval: performance of mapping by List: "
@@ -76,6 +83,23 @@ class MatchingProcessApplicationTests {
 		}
 		Instant endOuter = Instant.now();
 		System.out.println("Finished. Performance of mapping by List: "
+				+ decimalFormatter.format(Duration.between(startOuter, endOuter).toMillis()) + " ms");
+	}
+
+	public void testPerfMatchingBySet(long mappingCount, long round, List<String> sourceList) throws Exception {
+		System.out.println("Start running performance test: testPerfMatchingBySet() - mappingCount=" + mappingCount + ", round=" + round);
+		Instant startOuter = Instant.now();
+		for(long i = 0; i < round; ++i) {
+			Instant start = Instant.now();
+			for(long j = 0; j < mappingCount; ++j) {
+				service.matchingNamesBySet(sourceList);
+			}
+			Instant end = Instant.now();
+			System.out.println("Interval: performance of matching by Set: "
+					+ decimalFormatter.format(Duration.between(start, end).toMillis()) + " ms");
+		}
+		Instant endOuter = Instant.now();
+		System.out.println("Finished. Performance of matching by Set: "
 				+ decimalFormatter.format(Duration.between(startOuter, endOuter).toMillis()) + " ms");
 	}
 }

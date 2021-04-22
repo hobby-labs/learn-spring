@@ -3,6 +3,7 @@ package com.example.perf.matchingprocess.dao;
 import com.example.perf.matchingprocess.domains.Person;
 import com.example.perf.matchingprocess.mappers.PersonsMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -13,7 +14,6 @@ import java.util.Set;
 public class PersonsDAO implements PersonsMapper {
     @Autowired
     private PersonsMapper personsMapper;
-
 
     /**
      * {@inheritDoc}
@@ -35,7 +35,9 @@ public class PersonsDAO implements PersonsMapper {
      * {@inheritDoc}
      */
     @Override
+    @Cacheable(cacheNames="persons-name-cache", sync=true)
     public Set<String> selectAllNameAsSet() {
+        System.out.println("selectAllNameAsSet() has called");
         List<String> persons = personsMapper.selectAllNameAsList();
         return new HashSet<>(persons);
     }

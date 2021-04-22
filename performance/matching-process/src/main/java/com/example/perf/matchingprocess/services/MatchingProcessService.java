@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class MatchingProcessService {
@@ -24,10 +25,21 @@ public class MatchingProcessService {
         }
     }
 
-    public void mappingNamesByList(List<String> sourceList) {
+    public void matchingNamesByList(List<String> sourceList) throws Exception {
         List<String> namesInDB = personsDAO.selectAllNameAsList();
         for(String name : sourceList) {
-            namesInDB.contains(name);
+            if(!namesInDB.contains(name)) {
+                throw new Exception("A name\"" + name + "\" does not exist in DB.");
+            }
+        }
+    }
+
+    public void matchingNamesBySet(List<String> sourceList) throws Exception {
+        Set<String> namesInDB = personsDAO.selectAllNameAsSet();
+        for(String name : sourceList) {
+            if(!namesInDB.contains(name)) {
+                throw new Exception("A name\"" + name + "\" does not exist in DB.");
+            }
         }
     }
 }
