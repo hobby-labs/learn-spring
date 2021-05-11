@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  redis-lettuce-and-thread-num:
+    container_name: redis-lettuce-and-thread-num
+    hostname: redis-connection-pool-custom
+    image: redis
+    ports:
+      - "6379:6379"
+    privileged: true
