@@ -6,5 +6,7 @@ spring.redis:
   password: secret
 
 server:
+  connection-timeout: 5s
   tomcat:
-    max-threads: 100
+    max-threads: 1
+    accept-count: 2
