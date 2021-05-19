@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-for i in {7000..7006}; do
+for i in {7000..7005}; do
     redis-server /redis.conf --port ${i} \
         --cluster-config-file /nodes.${i}.conf --daemonize yes
 
@@ -8,7 +8,7 @@ for i in {7000..7006}; do
 done
 
 while true; do
-    for i in {7000..7006}; do
+    for i in {7000..7005}; do
         echo "Trying to launch redis port ${i}"
         while [[ "$(redis-cli -p ${i} <<< "PING")" != "PONG" ]]; do
             sleep 0.5
