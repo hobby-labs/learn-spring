@@ -2,11 +2,15 @@ package com.github.hobbylabs.rest.restxml.model;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.io.Serializable;
 
+@Data
 @JacksonXmlRootElement
 public class City implements Serializable {
 
@@ -20,10 +24,4 @@ public class City implements Serializable {
 
     @JacksonXmlProperty
     private final int population;
-
-    public City(Long id, String name, int population) {
-        this.id = id;
-        this.name = name;
-        this.population = population;
-    }
 }
