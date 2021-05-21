@@ -17,7 +17,7 @@ public class City implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JacksonXmlProperty(isAttribute = true)  // isAttribute = true を入れると、City 要素の属性となる
-    private final Long id;
+    private final int id;
 
     @JacksonXmlProperty  // isAttribute = true を入れないと、City 要素の子要素となる
     private final String name;
