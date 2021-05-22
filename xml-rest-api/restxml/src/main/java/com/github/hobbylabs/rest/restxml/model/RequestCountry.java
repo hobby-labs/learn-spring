@@ -17,10 +17,9 @@ public class RequestCountry {
     @JacksonXmlProperty(isAttribute = true, localName = "countryName")
     private String countryName;
 
-    @NotNull
     @JacksonXmlElementWrapper(localName = "Cities")
     @JacksonXmlProperty(localName = "City")
-    private List<RequestCity> requestCities;
+    private List<String> requestCities;
 
     @Size(min=1, max=32)
     @JacksonXmlProperty(localName = "Description")
@@ -28,5 +27,5 @@ public class RequestCountry {
 
     @Size(min=1, max=3)
     @JacksonXmlProperty(localName = "MaxFetchSize")
-    private int maxFetchSize;
+    private Integer maxFetchSize;
 }

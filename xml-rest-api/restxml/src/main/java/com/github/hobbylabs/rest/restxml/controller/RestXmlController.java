@@ -21,12 +21,11 @@ public class RestXmlController {
 
     @RequestMapping(value = {"/get"}, method = RequestMethod.GET, produces=MediaType.APPLICATION_XML_VALUE)
     public Country getCountry() {
-        restXmlService.getCountry();
         return restXmlService.getCountry();
     }
 
-    @RequestMapping(value = {"/set"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/get"}, method = RequestMethod.POST, produces=MediaType.APPLICATION_XML_VALUE)
     public Country getCountry(@RequestBody RequestCountry requestCountry) throws Exception {
-        return restXmlService.getCountry(requestCountry);
+        return restXmlService.getCountryByRequestCountry(requestCountry);
     }
 }

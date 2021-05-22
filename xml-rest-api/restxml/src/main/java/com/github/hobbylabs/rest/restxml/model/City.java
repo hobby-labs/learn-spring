@@ -2,7 +2,9 @@ package com.github.hobbylabs.rest.restxml.model;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.GeneratedValue;
@@ -17,11 +19,11 @@ public class City implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JacksonXmlProperty(isAttribute = true)  // isAttribute = true を入れると、City 要素の属性となる
-    private final int id;
+    private int id;
 
-    @JacksonXmlProperty  // isAttribute = true を入れないと、City 要素の子要素となる
-    private final String name;
+    @JacksonXmlProperty(localName = "Name")  // isAttribute = true を入れないと、City 要素の子要素となる
+    private String name;
 
-    @JacksonXmlProperty
-    private final int population;
+    @JacksonXmlProperty(localName = "Population")
+    private int population;
 }
