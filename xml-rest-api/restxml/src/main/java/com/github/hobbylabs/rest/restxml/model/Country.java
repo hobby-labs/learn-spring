@@ -28,5 +28,5 @@ public class Country {
      */
     @JacksonXmlElementWrapper(localName = "Cities")
     @JacksonXmlProperty(localName = "City")
-    private final List<City> city;
+    private final List<City> cities;
 }
