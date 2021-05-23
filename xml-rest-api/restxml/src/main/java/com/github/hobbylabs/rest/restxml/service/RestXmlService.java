@@ -2,6 +2,7 @@ package com.github.hobbylabs.rest.restxml.service;
 
 import com.github.hobbylabs.rest.restxml.model.City;
 import com.github.hobbylabs.rest.restxml.model.Country;
+import com.github.hobbylabs.rest.restxml.model.RequestCity;
 import com.github.hobbylabs.rest.restxml.model.RequestCountry;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -50,11 +51,11 @@ public class RestXmlService {
         return country;
     }
 
-    private Country getCountryByRequestCities(List<String> requestCities) throws Exception {
+    private Country getCountryByRequestCities(List<RequestCity> requestCities) throws Exception {
         List<City> cities = new ArrayList<>();
 
         for (int i = 0; i < requestCities.size(); ++i) {
-            City c = dataCities.get(requestCities.get(i));
+            City c = dataCities.get(requestCities.get(i).getName());
             if (c == null) {
                 throw new Exception("Name of the city " + requestCities.get(i) + " is not found in the data");
             }
@@ -76,7 +77,7 @@ public class RestXmlService {
 
         int maxFetchSize = (
                 requestCountry.getMaxFetchSize() == null ? fetchSizeLimit : requestCountry.getMaxFetchSize());
-        List<String> requestCities = requestCountry.getRequestCities();
+        List<RequestCity> requestCities = requestCountry.getRequestCities();
 
         if (requestCities == null) {
             return getCountry(maxFetchSize);

@@ -5,7 +5,8 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import lombok.Data;
 
 @Data
-@JacksonXmlRootElement(localName = "City")
+@JacksonXmlRootElement
 public class RequestCity {
-
+    @JacksonXmlProperty(localName = "Name")
+    private String name;
 }

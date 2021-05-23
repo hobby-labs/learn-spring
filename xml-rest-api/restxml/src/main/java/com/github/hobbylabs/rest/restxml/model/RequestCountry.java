@@ -19,7 +19,7 @@ public class RequestCountry {
 
     @JacksonXmlElementWrapper(localName = "Cities")
     @JacksonXmlProperty(localName = "City")
-    private List<String> requestCities;
+    private List<RequestCity> requestCities;
 
     @Size(min=1, max=32)
     @JacksonXmlProperty(localName = "Description")
