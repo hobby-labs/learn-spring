@@ -1,7 +1,8 @@
+Spring Boot REST XML  
 https://zetcode.com/springboot/restxml/
 
-
-https://bezkoder.com/spring-boot-rest-xml/#Create_Spring_Rest_APIs_Controller
+Spring Boot Rest XML example – Web service with XML Response  
+https://bezkoder.com/spring-boot-rest-xml/
 
 XML Serialization and Deserialization with Jackson  
 https://www.baeldung.com/jackson-xml-serialization-and-deserialization
