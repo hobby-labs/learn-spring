@@ -1,4 +1,4 @@
-package com.github.hobbylabs.ldapsample.domain;
+package com.github.hobbylabs.ldapsample.data;
 
 import java.util.List;
 

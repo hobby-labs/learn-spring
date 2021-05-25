@@ -108,7 +108,7 @@ gidNumber: 1000\n\
 homeDirectory: /home/taro-suzuki\n\
 loginShell: /bin/bash\n\
 userPassword: $(slappasswd -s secret)\n\
-mail: taro-suzuki@${__DOMAIN_COMPONENT__}\n\
+mail: taro-suzuki@${DOMAIN}\n\
 \n\
 # Hanako Suzuki. password: 'secret'\n\
 dn: uid=hanako-suzuki,ou=People,${__DOMAIN_COMPONENT__}\n\
@@ -123,7 +123,7 @@ gidNumber: 1002\n\
 homeDirectory: /home/hanako-suzuki\n\
 loginShell: /bin/bash\n\
 userPassword: $(slappasswd -s secret)\n\
-mail: hanako-suzuki@${__DOMAIN_COMPONENT__}" | ldapadd -x -D "cn=Manager,${__DOMAIN_COMPONENT__}" -w ${MANAGER_PASSWORD} \
+mail: hanako-suzuki@${DOMAIN}" | ldapadd -x -D "cn=Manager,${__DOMAIN_COMPONENT__}" -w ${MANAGER_PASSWORD} \
     && ldapwhoami -w secret -D "uid=taro-suzuki,ou=People,${__DOMAIN_COMPONENT__}" \
     && ldapwhoami -w secret -D "uid=hanako-suzuki,ou=People,${__DOMAIN_COMPONENT__}"
 
