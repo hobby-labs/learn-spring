@@ -13,6 +13,11 @@ https://stackoverflow.com/questions/7694992/counting-method-invocations-in-unit-
 
 * Connection pooling
 https://stackoverflow.com/questions/46659738/how-to-verify-spring-ldap-connection-pooling-configuration
+  
+* Connection pooling 2
+https://docs.spring.io/spring-ldap/docs/1.3.2.RELEASE/reference/html/pooling.html
+https://docs.spring.io/spring-ldap/docs/2.3.0.BUILD-SNAPSHOT/reference/html/pooling.html
+
 
 ```
 # GET
