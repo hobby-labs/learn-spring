@@ -41,3 +41,6 @@ You can check established connections typing the commands below in the container
 # while true; do date;ss -t -a | grep -P 'LISTEN|ESTAB'; sleep 1; done
 ```
 
+# State of the connection pool
+Connection pool of this project only create one connection.
+
