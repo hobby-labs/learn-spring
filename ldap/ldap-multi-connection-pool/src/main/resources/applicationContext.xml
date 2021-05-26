@@ -11,50 +11,13 @@
                          password="${sample.ldap.password}"
                          url="${sample.ldap.url}"
                          username="${sample.ldap.userDn}"
-                         base="${sample.ldap.base}" />
+                         >
+        <!-- Pooling options are at https://docs.spring.io/spring-ldap/docs/2.3.0.BUILD-SNAPSHOT/reference/html/pooling.html#pool2-configuration -->
+        <ldap:pooling2 min-idle-per-key="2" eviction-run-interval-millis="60000" />
+        <!-- <ldap:pooling min-idle="2" /> -->
+    </ldap:context-source>
 
     <ldap:ldap-template id="ldapTemplate" context-source-ref="contextSource"/>
-
-    <bean id="ldapTreeBuilder"
-          class="org.springframework.ldap.samples.utils.LdapTreeBuilder">
-        <constructor-arg ref="ldapTemplate" />
-    </bean>
-
-    <bean id="personDao"
-          class="org.springframework.ldap.samples.plain.dao.PersonDaoImpl">
-        <property name="ldapTemplate" ref="ldapTemplate" />
-    </bean>
-
-    <beans profile="default">
-        <!-- Populates the LDAP server with initial data -->
-        <bean class="org.springframework.ldap.test.LdifPopulator" depends-on="embeddedLdapServer">
-            <property name="contextSource" ref="contextSource" />
-            <property name="resource" value="classpath:/setup_data.ldif" />
-            <property name="base" value="${sample.ldap.base}" />
-            <property name="clean" value="${sample.ldap.clean}" />
-            <property name="defaultBase" value="dc=jayway,dc=se" />
-        </bean>
-
-        <!--
-            This is for test and demo purposes only - EmbeddedLdapServerFactoryBean launches an in-process
-            LDAP server.
-        -->
-        <bean id="embeddedLdapServer" class="org.springframework.ldap.test.EmbeddedLdapServerFactoryBean">
-            <property name="partitionName" value="example"/>
-            <property name="partitionSuffix" value="${sample.ldap.base}" />
-            <property name="port" value="18880" />
-        </bean>
-    </beans>
-
-    <beans profile="no-apacheds">
-        <!-- Populates the LDAP server with initial data -->
-        <bean class="org.springframework.ldap.test.LdifPopulator">
-            <property name="contextSource" ref="contextSource" />
-            <property name="resource" value="classpath:/setup_data.ldif" />
-            <property name="base" value="${sample.ldap.base}" />
-            <property name="clean" value="${sample.ldap.clean}" />
-            <property name="defaultBase" value="dc=jayway,dc=se" />
-        </bean>
-    </beans>
-
 </beans>
+
+
