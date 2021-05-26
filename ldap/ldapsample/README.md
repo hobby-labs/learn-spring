@@ -32,3 +32,12 @@ ldapsearch -x -LLL -w secret -D "cn=Manager,dc=mysite,dc="
 ```
 
 https://stackoverflow.com/questions/12362212/what-is-the-best-way-to-know-if-all-the-variables-in-a-class-are-null/12362245#12362245
+
+# Check established connections
+You can check established connections typing the commands below in the container.
+```
+# apt update
+# apt install iproute2
+# while true; do date;ss -t -a | grep -P 'LISTEN|ESTAB'; sleep 1; done
+```
+
