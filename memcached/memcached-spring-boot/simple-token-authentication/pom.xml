@@ -44,11 +44,16 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!-- memcached-spring-boot -->
+		<!-- For memcached -->
+		<dependency>
+			<groupId>com.googlecode.xmemcached</groupId>
+			<artifactId>xmemcached</artifactId>
+			<version>2.4.7</version>
+		</dependency>
+		<!-- For validation -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
+			<artifactId>spring-boot-starter-validation</artifactId>
 		</dependency>
 	</dependencies>
 
