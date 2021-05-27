@@ -4,11 +4,8 @@ import lombok.Data;
 
 import javax.validation.constraints.NotNull;
 
-/**
- * Authentication object that the client will send to the server.
- */
 @Data
-public class AuthRequest {
+public class CreateTokenRequest {
     @NotNull
-    private String token;
+    private String userName;
 }

@@ -17,6 +17,6 @@ public class MemcachedClientConfiguration {
 
     @Bean
     public MemcachedClient configureMemcachedClient() throws IOException {
-        return new XMemcachedClientBuilder(AddrUtil.getAddresses("127.0.0.1:11211 127.0.0.1:11212 127.0.0.1:11213")).build();
+        return new XMemcachedClientBuilder(AddrUtil.getAddresses(serverListString)).build();
     }
 }

@@ -11,5 +11,6 @@ import javax.validation.constraints.NotNull;
 public class AuthResponse {
     @NotNull
     private int code;
+    private String userName;
     private String message;
 }
