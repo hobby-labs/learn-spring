@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest(
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
-        properties = { "memcached.server.list.string=127.0.0.1:11211" }
+        properties = { "memcached.server.list.string=127.0.0.1:11211 127.0.0.1:11212 127.0.0.1:11213" }
 )
 public class SimpleTokenAuthenticationControllerE2eTest {
     @LocalServerPort
