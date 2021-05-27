@@ -5,10 +5,11 @@ import lombok.Data;
 import javax.validation.constraints.NotNull;
 
 /**
- * Authentication object that the client will send to the server.
+ * Authentication response that the server respond to the client.
  */
 @Data
-public class AuthRequest {
+public class AuthResponse {
     @NotNull
-    private String userName;
+    private int code;
+    private String message;
 }
