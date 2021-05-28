@@ -27,7 +27,7 @@ public class RestXmlController {
      * Get all cities of a default country.
      * @return Result of the search
      */
-    @RequestMapping(value = {"/get"}, method = RequestMethod.GET, produces=MediaType.APPLICATION_XML_VALUE)
+    @GetMapping(value = {"/get"}, produces=MediaType.APPLICATION_XML_VALUE)
     public Country getCountry() {
         return restXmlService.getCountry();
     }
@@ -38,7 +38,7 @@ public class RestXmlController {
      * @return Result of the search
      * @throws Exception Some exceptions
      */
-    @RequestMapping(value = {"/get"}, method = RequestMethod.POST, produces=MediaType.APPLICATION_XML_VALUE)
+    @PostMapping(value = {"/get"}, produces=MediaType.APPLICATION_XML_VALUE)
     public Country getCountry(@Valid @RequestBody RequestCountry requestCountry) throws Exception {
         return restXmlService.getCountryByRequestCountry(requestCountry);
     }
