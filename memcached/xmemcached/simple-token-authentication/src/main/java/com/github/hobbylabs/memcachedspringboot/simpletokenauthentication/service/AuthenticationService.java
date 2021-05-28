@@ -25,8 +25,13 @@ public class AuthenticationService {
      * @throws TimeoutException
      * @throws MemcachedException
      */
-    public AuthResponse authToken(AuthRequest authRequest) throws InterruptedException, TimeoutException, MemcachedException {
+    public AuthResponse authToken(AuthRequest authRequest) throws Exception {
         String userName = authTokenRepositoryImpl.findBy(authRequest.getToken());
+
+        if (userName == null) {
+            // TODO: Should be changed the exception more accurate one.
+            throw new Exception("Not authorized");
+        }
 
         AuthResponse response = new AuthResponse();
 

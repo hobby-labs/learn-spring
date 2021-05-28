@@ -19,7 +19,7 @@ public class SimpleTokenAuthenticationController {
     private final AuthenticationService authenticationService;
 
     @PostMapping(value = {"/authToken"})
-    public AuthResponse authToken(@RequestBody AuthRequest authRequest) throws InterruptedException, TimeoutException, MemcachedException {
+    public AuthResponse authToken(@RequestBody AuthRequest authRequest) throws Exception {
         return authenticationService.authToken(authRequest);
     }
 
