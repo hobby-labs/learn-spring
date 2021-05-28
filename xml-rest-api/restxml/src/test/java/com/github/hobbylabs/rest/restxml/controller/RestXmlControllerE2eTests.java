@@ -1,26 +1,16 @@
 package com.github.hobbylabs.rest.restxml.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
-import com.fasterxml.jackson.databind.introspect.AnnotatedClass;
-import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-import com.github.hobbylabs.rest.restxml.model.City;
 import com.github.hobbylabs.rest.restxml.model.Country;
-import com.github.hobbylabs.rest.restxml.model.Foo;
 import com.github.hobbylabs.rest.restxml.service.RestXmlService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -31,9 +21,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class RestXmlControllerE2eTests {
     @LocalServerPort
     private int port;
-
-    @InjectMocks
-    RestXmlController restXmlController;
 
     @Mock
     RestXmlService restXmlService;
@@ -64,7 +51,6 @@ public class RestXmlControllerE2eTests {
 
         Country c = new Country();
         c.setId(100);
-        Mockito.when(restXmlService.getCountry()).thenReturn(c);
 
         String result = restTemplate.getForObject(
                 "http://localhost:" + port + "/api/v1/get",
