@@ -1,5 +1,6 @@
 package com.github.hobbylabs.rest.restxml.handler;
 
+import com.github.hobbylabs.rest.restxml.exception.RequestedCountryNotFoundException;
 import com.github.hobbylabs.rest.restxml.model.ErrorResponse;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -65,10 +66,29 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<Object>(errorResponse, errHeaders, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(value = Exception.class)
-    public ResponseEntity<ErrorResponse> handleAsDefault(Exception exception) {
+    /**
+     * Handles RequestedCountryNotFoundException.
+     * @param e RequestedCountryNotFoundException
+     * @return Error response for the client
+     */
+    @ExceptionHandler(value = RequestedCountryNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleRequestedCountryNotFoundException(RequestedCountryNotFoundException e) {
         ErrorResponse errorResponseBody = new ErrorResponse();
-        errorResponseBody.setMessage(exception.getMessage());
+        errorResponseBody.setMessage(e.getMessage());
+        errorResponseBody.setCode(HttpStatus.BAD_REQUEST);
+
+        return new ResponseEntity<>(errorResponseBody, errHeaders, HttpStatus.BAD_REQUEST);
+    }
+
+    /**
+     * Handles all exceptions that was not handled by other handlers.
+     * @param e Exception occurred in a project
+     * @return Error response for the client
+     */
+    @ExceptionHandler(value = Exception.class)
+    public ResponseEntity<ErrorResponse> handleAsDefault(Exception e) {
+        ErrorResponse errorResponseBody = new ErrorResponse();
+        errorResponseBody.setMessage(e.getMessage());
         errorResponseBody.setCode(HttpStatus.INTERNAL_SERVER_ERROR);
 
         return new ResponseEntity<>(errorResponseBody, errHeaders, HttpStatus.INTERNAL_SERVER_ERROR);

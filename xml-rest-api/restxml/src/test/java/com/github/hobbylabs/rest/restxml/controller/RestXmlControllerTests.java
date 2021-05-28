@@ -1,6 +1,7 @@
 package com.github.hobbylabs.rest.restxml.controller;
 
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import com.github.hobbylabs.rest.restxml.exception.RequestedCountryNotFoundException;
 import com.github.hobbylabs.rest.restxml.model.City;
 import com.github.hobbylabs.rest.restxml.model.Country;
 import com.github.hobbylabs.rest.restxml.model.ErrorResponse;
@@ -11,6 +12,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -72,7 +74,6 @@ public class RestXmlControllerTests {
         Mockito.when(restXmlService.getCountry()).thenReturn(country);
         String responseBody = this.mockMvc.perform(get("/api/v1/get"))
                 .andDo(print()).andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
-        //System.out.println(responseBody);
         Country c = mapper.readValue(responseBody, Country.class);
 
         assertEquals(1, c.getId());
@@ -88,20 +89,20 @@ public class RestXmlControllerTests {
     @Test
     @DisplayName("/get (POST) should return Error object if the country which requested was not supported")
     public void testErr0001() throws Exception {
-        Mockito.when(restXmlService.getCountryByRequestCountry(any())).thenThrow(new Exception("Foo Exception"));
+        Mockito.when(restXmlService.getCountryByRequestCountry(any()))
+                .thenThrow(new RequestedCountryNotFoundException("This is a RequestedCountryNotFoundException"));
 
         String resultBody = this.mockMvc.perform(post(
                 "/api/v1/get")
                 .contentType(MediaType.APPLICATION_XML)
-                .content("<Country countryName=\"Japan\"><Cities><City><Name>Tokyo</Name></City></Cities></Country>")
+                .content("<Country countryName=\"Foo\"><Cities><City><Name>Tokyo</Name></City></Cities></Country>")
         ).andDo(print())
-        .andExpect(status().isInternalServerError())
-        .andExpect(r -> assertTrue(r.getResolvedException() instanceof Exception))
+        .andExpect(status().isBadRequest())
+        .andExpect(r -> assertTrue(r.getResolvedException() instanceof RequestedCountryNotFoundException))
         .andReturn().getResponse().getContentAsString();
 
-        //System.out.println(resultBody);
         ErrorResponse errResponse = mapper.readValue(resultBody, ErrorResponse.class);
-        assertEquals("Error", errResponse.getCode());
-        assertEquals("Foo Exception", errResponse.getMessage());
+        assertEquals(HttpStatus.BAD_REQUEST, errResponse.getCode());
+        assertEquals("This is a RequestedCountryNotFoundException", errResponse.getMessage());
     }
 }
