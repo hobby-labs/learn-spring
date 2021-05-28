@@ -3,9 +3,11 @@ package com.github.hobbylabs.rest.restxml.model;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
-import com.sun.istack.NotNull;
 import lombok.Data;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.List;
 
@@ -25,7 +27,8 @@ public class RequestCountry {
     @JacksonXmlProperty(localName = "Description")
     private String description;
 
-    @Size(min=1, max=3)
+    @Min(1)
+    @Max(3)
     @JacksonXmlProperty(localName = "MaxFetchSize")
     private Integer maxFetchSize;
 }
