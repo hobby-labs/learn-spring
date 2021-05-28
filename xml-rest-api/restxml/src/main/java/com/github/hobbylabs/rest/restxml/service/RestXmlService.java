@@ -71,8 +71,8 @@ public class RestXmlService {
 
     public Country getCountryByRequestCountry(RequestCountry requestCountry) throws Exception {
         String countryName = requestCountry.getCountryName();
-        if (!"Japan".equals(requestCountry.getCountryName())) {
-            throw new Exception("Un supported country exception was thrown. This application only supports a country \"Japan\" not \"" + requestCountry.getCountryName() + "\"");
+        if (!"Japan".equals(countryName)) {
+            throw new Exception("Un supported country exception was thrown. This application only supports a country \"Japan\" not \"" + countryName + "\"");
         }
 
         int maxFetchSize = (
