@@ -13,7 +13,7 @@ $ curl http://localhost:8080//api/v1/getLdapData
 [{"cn":"taro","mail":"taro-suzuki@mysite.example.com","uidNumber":1000,"gidNumber":1000,"homeDirectory":"/home/taro-suzuki"},{"cn":"hanako","mail":"hanako-suzuki@mysite.example.com","uidNumber":1001,"gidNumber":1002,"homeDirectory":"/home/hanako-suzuki"}]
 ```
 
-* Get specified people infomation in LDAP
+* Get specified people information in LDAP
 
 ```
 $ curl http://localhost:8080//api/v1/getLdapData -X POST \
@@ -120,7 +120,7 @@ public class LdapSampleService {
 }
 ```
 
-Then you can querying LDAP like below.
+Then you can query to LDAP like below.
 
 ```java
 @Service
@@ -164,10 +164,9 @@ public class People {
 }
 ```
 
-Complex filtering is also enabled by quering like below.
+Complex filtering is also enabled with query like below.
 
 ```
-
 @Service
 public class LdapSampleService {
 
@@ -224,4 +223,4 @@ https://stackoverflow.com/questions/46659738/how-to-verify-spring-ldap-connectio
 
 * Spring LDAP Reference - 8. Pooling Support  
 https://docs.spring.io/spring-ldap/docs/2.3.0.BUILD-SNAPSHOT/reference/html/pooling.html  
-
+  
