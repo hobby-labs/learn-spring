@@ -29,6 +29,7 @@ $ curl http://localhost:8080//api/v1/getLdapData -X POST \
 ```
 
 You can create a bean class to configure LdapTemplate.
+Some notices to create it is that use PoolConfig that is packaged in `org.springframework.ldap.pool2` not in `org.springframework.ldap.pool`.
 
 * LdapSampleConfiguration
 ```java
@@ -44,18 +45,46 @@ public class LdapSampleConfiguration {
     @Value("${ldap.password}")
     private String ldapPassword;
 
-    @Value("${ldap.pooled}")
-    private Boolean ldapPooled;
+    @Value("${ldap.pool.enabled}")
+    private Boolean ldapPoolEnabled;
+
+    // ...
 
     @Bean
-    public LdapContextSource contextSource() {
-        LdapContextSource contextSource = new LdapContextSource();
-        contextSource.setUrl(ldapUrl);
-        contextSource.setUserDn(bindDn);
-        contextSource.setPassword(ldapPassword);
-        contextSource.setPooled(ldapPooled);  // This enables single connection pooling
+    public ContextSource contextSource() {
+        LdapContextSource ldapContextSource = new LdapContextSource();
+        ldapContextSource.setUrl(ldapUrl);
+        ldapContextSource.setUserDn(bindDn);
+        ldapContextSource.setPassword(ldapPassword);
+        ldapContextSource.afterPropertiesSet();
 
-        return contextSource;
+        if (ldapPoolEnabled != null && ldapPoolEnabled == true) {
+            return createPoolContextSource(ldapContextSource);
+        }
+
+        return ldapContextSource;
+    }
+
+    /**
+     * Create ContextSource that is enabled pool2 config.
+     * @param ldapContextSource LdapContextSource
+     * @return ContextSource that has pooling configuration.
+     */
+    public ContextSource createPoolContextSource(LdapContextSource ldapContextSource) {
+        PoolConfig poolConfig = new PoolConfig();
+        poolConfig.setTestOnBorrow(ldapPoolTestOnBorrow);
+        poolConfig.setMaxTotalPerKey(maxTotalPerKey);
+        poolConfig.setMaxIdlePerKey(maxIdlePerKey);
+        poolConfig.setTimeBetweenEvictionRunsMillis(timeBetweenEvictionRunsMillis);
+        poolConfig.setMinIdlePerKey(minIdlePerKey);
+
+        PooledContextSource pcs = new PooledContextSource(poolConfig);
+        pcs.setContextSource(ldapContextSource);
+        pcs.setDirContextValidator(new DefaultDirContextValidator());
+
+        TransactionAwareContextSourceProxy contextSourceProxy = new TransactionAwareContextSourceProxy(pcs);
+
+        return contextSourceProxy;
     }
 
     @Bean
@@ -78,7 +107,14 @@ After creating a configuration class, its parameters can be declared in `applica
 ldap.url=ldap://localhost:389
 ldap.bindDn=cn=Manager,dc=mysite,dc=example,dc=com
 ldap.password=secret
-ldap.pooled=true
+
+# Pool 2 config. If ldap.pool.enabled=false, all configs under it do not affected to the LDAP client.
+ldap.pool.enabled=true
+ldap.pool.testOnBorrow=true
+ldap.pool.maxTotalPerKey=8
+ldap.pool.maxIdlePerKey=8
+ldap.pool.timeBetweenEvictionRunsMillis=60000
+ldap.pool.minIdlePerKey=4
 ```
 
 # To check established connections
