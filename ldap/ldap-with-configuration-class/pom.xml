@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.github.hobbylabs</groupId>
-	<artifactId>ldapsample</artifactId>
+	<artifactId>ldap-with-configuration-class</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>ldapsample</name>
-	<description>Demo project for ldap</description>
+	<name>ldap-with-configuration-class</name>
+	<description>Demo project for ldap with configuration class</description>
 	<properties>
 		<java.version>11</java.version>
 	</properties>
