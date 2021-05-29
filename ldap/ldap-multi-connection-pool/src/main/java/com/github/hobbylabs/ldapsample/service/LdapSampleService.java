@@ -36,10 +36,6 @@ public class LdapSampleService {
                 "(cn=*)",
                 new PeopleAttributeMapper());
 
-        for (People p : results) {
-            peopleList.add(p);
-        }
-
         return peopleList;
     }
 
