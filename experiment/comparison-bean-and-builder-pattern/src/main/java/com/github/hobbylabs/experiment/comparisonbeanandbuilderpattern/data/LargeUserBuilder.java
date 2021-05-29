@@ -1,9 +1,9 @@
 package com.github.hobbylabs.experiment.comparisonbeanandbuilderpattern.data;
 
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Value;
 
-@Getter
+@Value
 @Builder
 public class LargeUserBuilder {
     private String firstName;
