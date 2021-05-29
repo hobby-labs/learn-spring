@@ -10,7 +10,7 @@ import java.text.DecimalFormat;
 import java.time.Duration;
 import java.time.Instant;
 
-public class PatternTest {
+public class PerformanceTest {
 
     private static DecimalFormat decimalFormatter = new DecimalFormat("###,###");
 
