@@ -32,7 +32,7 @@ You can use it by setting each field through any setters after instantiate it.
     ......
 ```
 
-## Builder pattern
+## Builder Pattern
 Bean with builder pattern is to be able to implement giving `@Value` and `@Builder` annotation in a class that contains any field attributes.
 `@Value` annotation will make a bean immutable.
 
@@ -91,7 +91,7 @@ You can use it by passing values through its constructor.
 
 This instance never changed it field attributes because its attributes are all `final` (and not any setters).
 
-## Custom bean
+## Custom Bean
 My custom bean that has init method to set all attributes at once.
 This class considered to be able to deserialize it with ObjectMapper easily.  
 // Caution: It is my own strategy not widely used among other programmers.
@@ -160,5 +160,22 @@ But you may choose any type of way along with your strategies.
 For example, I recommend you to use builder pattern if you want to implement immutability and keep your data safe in your program.
 Performance is not the only reason why we choose one.
 
+# Deserializablity
+Some of the conponent can not deserialize JSON string to object.
+
+```
+Bean: Serializable
+Builder Pattern: Not serializable (*1)
+Immutable Bean: Not serializable (*2)
+Custom Bean: Serializable
+```
+
+(*1) You can make `Builder pattern` to be serializable in order to [this comment](https://stackoverflow.com/a/48801237).  
+(*2) You can make `Immutable Bean` to be serializable in order to [this comment](https://stackoverflow.com/a/56118113).   
+
 # Reference
+* Intro to the Jackson ObjectMapper  
+https://www.baeldung.com/jackson-object-mapper-tutorial  
+
+* Can't make Jackson and Lombok work together  
 https://stackoverflow.com/questions/39381474/cant-make-jackson-and-lombok-work-together
