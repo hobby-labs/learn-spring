@@ -1,6 +1,8 @@
 package com.github.hobbylabs.experiment.comparisonbeanandbuilderpattern.data;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 
 @Data
 public class LargeUserImmutableBean {

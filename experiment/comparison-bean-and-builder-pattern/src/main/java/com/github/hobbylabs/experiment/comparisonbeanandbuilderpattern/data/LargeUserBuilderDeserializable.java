@@ -5,6 +5,9 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import lombok.Builder;
 import lombok.Value;
 
+/**
+ * This is a bean that deserializable with builder pattern.
+ */
 @JsonDeserialize(builder = LargeUserBuilderDeserializable.LargeUserBuilderDeserializableBuilder.class)
 @Value
 @Builder
