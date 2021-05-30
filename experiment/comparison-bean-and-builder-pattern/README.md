@@ -156,12 +156,12 @@ Custom bean:     2294ms 2656ms 2690ms 2664ms 2779ms 2646ms 2667ms 2650ms 2722ms
 ```
 
 Bean breaks the best record.
-But you may choose any type of way along with your strategies.
+However, you may choose any type of way along with your strategies.
 For example, I recommend you to use builder pattern if you want to implement immutability and keep your data safe in your program.
 Performance is not the only reason why we choose one.
 
 # Deserializablity
-Some of the conponent can not deserialize JSON string to object.
+Some components can not deserialize JSON string to object.
 
 ```
 Bean: Serializable
@@ -171,7 +171,7 @@ Custom Bean: Serializable
 ```
 
 (*1) You can make `Builder pattern` to be serializable in order to [this comment](https://stackoverflow.com/a/48801237).  
-(*2) You can make `Immutable Bean` to be serializable in order to [this comment](https://stackoverflow.com/a/56118113).   
+(*2) You can make `Immutable Bean` to be serializable in order to [this comment](https://stackoverflow.com/a/56118113).
 
 # Reference
 * Intro to the Jackson ObjectMapper  
