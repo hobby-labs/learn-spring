@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.github.hobbylabs</groupId>
-	<artifactId>reload_properties</artifactId>
+	<artifactId>reload_environment_properties</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>reload_properties</name>
+	<name>reload_environment_properties</name>
 	<description>Demo project for reloading properties</description>
 	<properties>
 		<java.version>11</java.version>
