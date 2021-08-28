@@ -26,6 +26,8 @@ You can confirm reloading the properties by modifying a value of `test.message` 
 test.message=foo bar baz
 ```
 
+The value on the log will be reloaded after a few seconds and you can see the value that was changed.
+
 # Reference
 [Reloading Properties Files in Spring](https://www.baeldung.com/spring-reloading-properties)
 [Spring Properties File Outside jar](https://www.baeldung.com/spring-properties-file-outside-jar)
