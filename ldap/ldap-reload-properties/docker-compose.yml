@@ -1,0 +1,19 @@
+version: '3'
+services:
+  ldap:
+    container_name: spring_boot_ldap
+    build:
+      context: ./docker/
+      dockerfile: Dockerfile
+    ports:
+      - "389:389"
+
+  nginx:
+    container_name: spring_boot_nginx
+    image: nginx:1.21
+    volumes:
+      - ./templates:/etc/nginx/templates
+    ports:
+      - "18080:80"
+    environment:
+      - NGINX_HOST=app.example.com
