@@ -1,6 +1,7 @@
 upstream tomcat-app-server {
     server 172.31.0.101:8080;
-    server 172.31.0.101:8081;
+    server 172.31.0.101:8081 backup;
+    server 172.31.0.101:8082 backup;
 }
 
 server {
@@ -10,15 +11,12 @@ server {
 
     #access_log  /var/log/nginx/host.access.log  main;
 
-
     location / {
         proxy_set_header X-Forwarded-Host $host;
         proxy_set_header X-Forwarded-Server $host;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        #proxy_pass http://172.31.0.101:8080/;
         proxy_pass http://tomcat-app-server/;
-        #proxy_next_upstream_tries 999999;
-        proxy_next_upstream error;
+        proxy_next_upstream error timeout http_500;
     }
 
     #error_page  404              /404.html;

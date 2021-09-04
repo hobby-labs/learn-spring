@@ -7,7 +7,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 @Component
-@PropertySource(value = "file:ldap.properties", factory = ReloadablePropertySourceFactory.class)
+@PropertySource(value = "file:application.properties", factory = ReloadablePropertySourceFactory.class)
 public class EnvironmentConfigBean {
 
     private Environment environment;

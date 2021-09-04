@@ -5,7 +5,7 @@
        xmlns:ldap="http://www.springframework.org/schema/ldap"
        xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/ldap https://www.springframework.org/schema/ldap/spring-ldap.xsd">
 
-    <context:property-placeholder location="classpath:/ldap.properties" />
+    <context:property-placeholder location="classpath:/application.properties" />
 
     <ldap:context-source id="contextSource"
                          password="${sample.ldap.password}"

@@ -22,10 +22,4 @@ public class LdapSampleController {
     public List<People> getLdapData() {
         return ldapSampleService.getLdapData();
     }
-
-    @PostMapping(value = {"/getLdapData"})
-    public People getLdapDate(@RequestBody RequestQueryRoot requestedQueryRoot) throws IllegalAccessException {
-        People people = ldapSampleService.getLdapDataByQuery(requestedQueryRoot);
-        return people;
-    }
 }

@@ -7,6 +7,7 @@ import com.github.hobbylabs.ldapsample.data.request.RequestQueryRoot;
 import com.github.hobbylabs.ldapsample.data.request.Search;
 import com.github.hobbylabs.ldapsample.properties.reloading.beans.EnvironmentConfigBean;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.ldap.core.AttributesMapper;
 import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.ldap.filter.AbstractFilter;
@@ -29,45 +30,32 @@ public class LdapSampleService {
 
     private EnvironmentConfigBean environmentConfigBean;
 
+    @Value("${sample.ldap.url}")
+    private String ldapUrl;
+    @Value("${sample.ldap.bindDn}")
+    private String ldapBindDn;
+    @Value("${sample.ldap.password}")
+    private String ldapPassword;
+
     public LdapSampleService(LdapTemplate ldapTemplate, EnvironmentConfigBean environmentConfigBean) {
         this.ldapTemplate = ldapTemplate;
         this.environmentConfigBean = environmentConfigBean;
     }
 
     public List<People> getLdapData() {
-        List<People> peopleList = new ArrayList<>();
+        log.info("bean.ldap.url=\"" + environmentConfigBean.getUrl()
+                + "\",bean.ldap.bindDn=\"" + environmentConfigBean.getBindDn()
+                + "\",bean.ldap.password=\"" + environmentConfigBean.getPassword()
+                + "\",value.ldap.url=\"" + ldapUrl
+                + "\",value.ldap.bindDn=\"" + ldapBindDn
+                + "\",value.ldap.password=\"" + ldapPassword + "\"");
 
-        List<People> results = ldapTemplate.search(
+        List<People> result = ldapTemplate.search(
                 "ou=People,dc=mysite,dc=example,dc=com",
                 "(cn=*)",
                 new PeopleAttributeMapper());
 
-        return peopleList;
-    }
-
-    public People getLdapDataByQuery(RequestQueryRoot requestedQueryRoot) throws IllegalAccessException {
-        Query query = requestedQueryRoot.getQuery();
-        Search search = query.getSearch();
-
-        log.info("ldap.url=\"" + environmentConfigBean.getUrl() + "\"");
-
-        // This instruction assumes that the both cn and mail are NOT null.
-        AndFilter andFilter = new AndFilter();
-        andFilter.and(new EqualsFilter("cn", search.getCn()));
-        andFilter.and(new EqualsFilter("mail", search.getMail()));
-        System.out.println(andFilter.encode());
-
-        // This query assumes that the users are all unique.
-        List<People> results = ldapTemplate.search(
-                "ou=People,dc=mysite,dc=example,dc=com",
-                andFilter.encode(),
-                new PeopleAttributeMapper());
-        if(results.size() == 0) {
-            return new People();  // empty
-        }
-        People people = results.get(0);
-
-        return people;
+        return result;
     }
 
     private class PeopleAttributeMapper implements AttributesMapper<People> {
