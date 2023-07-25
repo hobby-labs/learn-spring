@@ -7,6 +7,8 @@ import com.github.hobbylabs.ldapsample.data.request.Search;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import org.apache.commons.pool2.impl.GenericKeyedObjectPoolConfig;
+
 import com.github.hobbylabs.ldapsample.service.LdapSampleService;
 
 import java.util.List;
@@ -16,7 +18,45 @@ import java.util.List;
 @RequestMapping("/api/v1")
 public class LdapSampleController {
 
-    private final LdapSampleService ldapSampleService;
+    private Object ldapConnectionPool;
+
+    private GenericKeyedObjectPoolConfig poolConfig;
+
+    public LdapSampleController() {
+        // https://www.programcreek.com/java-api-examples/?api=org.apache.commons.pool2.impl.GenericKeyedObjectPoolConfig
+
+        GenericKeyedObjectPoolConfig objectPoolConfig = new GenericKeyedObjectPoolConfig();
+        DirContextPooledObjectFactory dirContextPooledObjectFactory = new DirContextPooledObjectFactory();
+        // objectPoolConfig.setMaxTotalPerKey(<int>);
+        //objectPoolConfig.setMaxTotal(<int>);
+
+        //objectPoolConfig.setMaxIdlePerKey(<int>);
+        //objectPoolConfig.setMinIdlePerKey(<int>);
+
+        //objectPoolConfig.setTestWhileIdle(<int>);
+        //objectPoolConfig.setTestOnReturn(<boolean>);
+        //objectPoolConfig.setTestOnCreate(<boolean>);
+        //objectPoolConfig.setTestOnBorrow(<boolean>);
+
+        //objectPoolConfig.setTimeBetweenEvictionRunsMillis(<long>);
+        //objectPoolConfig.setEvictionPolicyClassName(<String>);
+        //objectPoolConfig.setMinEvictableIdleTimeMillis(<long>);
+        //objectPoolConfig.setNumTestsPerEvictionRun(<int>);
+        //objectPoolConfig.setSoftMinEvictableIdleTimeMillis(<long>);
+
+        //objectPoolConfig.setJmxEnabled(<boolean>);
+        //objectPoolConfig.setJmxNameBase(<String>);
+        //objectPoolConfig.setJmxNamePrefix(<String>);
+
+        //objectPoolConfig.setMaxWaitMillis(<long>);
+
+        //objectPoolConfig.setFairness(<boolean>);
+        //objectPoolConfig.setBlockWhenExhausted(<boolean>);
+        //objectPoolConfig.setLifo(<boolean>);
+
+        this.poolConfig = new GenericKeyedObjectPoolConfig(objectPoolConfig);
+        poolConfig.set
+    }
 
     @GetMapping(value = {"/getLdapData"})
     public List<People> getLdapData() {

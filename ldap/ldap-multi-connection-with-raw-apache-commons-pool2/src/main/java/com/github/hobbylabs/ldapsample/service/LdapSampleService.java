@@ -22,6 +22,10 @@ import java.util.List;
 @Service
 public class LdapSampleService {
 
+    public LdapSampleService() {
+
+    }
+
     private final LdapTemplate ldapTemplate;
 
     public LdapSampleService(LdapTemplate ldapTemplate) {

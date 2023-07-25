@@ -12,7 +12,7 @@
 	<artifactId>ldapsample</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>ldapsample</name>
-	<description>Demo project for ldap</description>
+	<description>ldap-multi-connection-with-raw-apache-commons-pool2</description>
 	<properties>
 		<java.version>11</java.version>
 	</properties>
