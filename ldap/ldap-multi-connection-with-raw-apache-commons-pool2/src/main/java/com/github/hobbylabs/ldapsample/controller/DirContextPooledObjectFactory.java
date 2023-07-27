@@ -2,21 +2,18 @@ package com.github.hobbylabs.ldapsample.controller;
 
 import org.apache.commons.pool2.BaseKeyedPooledObjectFactory;
 import org.apache.commons.pool2.PooledObject;
-
-import javax.naming.CommunicationException;
-import java.util.HashSet;
-import java.util.Set;
+import java.lang.reflect.Proxy;
 
 public class DirContextPooledObjectFactory extends BaseKeyedPooledObjectFactory<Object, Object> {
-    private static final Set<Class<? extends Throwable>> DEFAULT_NONTRANSIENT_EXCEPTIONS = new HashSet<Class<? extends Throwable>>();
 
-    static {
-        DEFAULT_NONTRANSIENT_EXCEPTIONS.add(CommunicationException.class);
-    };
+
 
     @Override
     public Object create(Object o) throws Exception {
-        return null;
+        //final DirContextType contextType = (DirContextType) key;
+        return Proxy.newProxyInstance(DirContextProxy.class.getClassLoader(), new Class<?>[] {
+                        LdapUtils.getActualTargetClass(readOnlyContext), DirContextProxy.class, FailureAwareContext.class },
+                new org.springframework.ldap.pool2.factory.DirContextPooledObjectFactory.FailureAwareContextProxy(readOnlyContext));
     }
 
     @Override
