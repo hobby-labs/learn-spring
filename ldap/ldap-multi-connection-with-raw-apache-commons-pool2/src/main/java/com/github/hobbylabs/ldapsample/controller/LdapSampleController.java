@@ -30,7 +30,9 @@ public class LdapSampleController {
 
     private Object ldapConnectionPool;
 
-    private GenericKeyedObjectPoolConfig poolConfig;
+    private final LdapSampleService ldapSampleService;
+
+    LdapConnectionTemplate ldapConnectionTemplate;
 
     public LdapSampleController() {
 //        // https://www.programcreek.com/java-api-examples/?api=org.apache.commons.pool2.impl.GenericKeyedObjectPoolConfig
@@ -96,12 +98,12 @@ public class LdapSampleController {
         System.out.println("Status of authenticating a user: " + status);
     }
 
+    @GetMapping(value = {"/getLdapData"})
+    public List<People> getLdapData(@RequestBody RequestQueryRoot requestedQueryRoot) {
+        People people = ldapSampleService.getLdapDataByQuery(requestedQueryRoot);
+        return ldapConnectionTemplate.search(ldapConnectionTemplate.newDn("ou=People,dc=mysite,dc=example,dc=com"), "(mail=" +  + ")", );
+    }
 
-//    @GetMapping(value = {"/getLdapData"})
-//    public List<People> getLdapData() {
-//        return ldapSampleService.getLdapData();
-//    }
-//
 //    @PostMapping(value = {"/getLdapData"})
 //    public People getLdapDate(@RequestBody RequestQueryRoot requestedQueryRoot) throws IllegalAccessException {
 //        People people = ldapSampleService.getLdapDataByQuery(requestedQueryRoot);
