@@ -39,7 +39,8 @@ add: olcRootDN" | ldapadd -Y EXTERNAL -H ldapi:/// \
 # Set monitor DB (skipped on ubuntu)
 
 # Set database information and basic data
-RUN /usr/sbin/slapd -h 'ldap:/// ldapi:///' -g openldap -u openldap -F /etc/ldap/slapd.d \
+RUN ulimit -n 1024 \
+    && /usr/sbin/slapd -h 'ldap:/// ldapi:///' -g openldap -u openldap -F /etc/ldap/slapd.d \
     && sleep 2 \
     && __DOMAIN_COMPONENT__=$(echo "dc=$(echo ${DOMAIN} | sed -e 's|\.|,dc=|g')") \
     && __DC_DOMAIN__=$(echo "${DOMAIN}") \
@@ -131,6 +132,7 @@ mail: hanako-suzuki@${DOMAIN}" | ldapadd -x -D "cn=Manager,${__DOMAIN_COMPONENT_
     && ldapwhoami -w secret -D "uid=hanako-suzuki,ou=People,${__DOMAIN_COMPONENT__}"
 
 COPY entrypoint.sh /opt
+RUN chmod 755 /opt/entrypoint.sh
 
 ENTRYPOINT ["/opt/entrypoint.sh"]
 

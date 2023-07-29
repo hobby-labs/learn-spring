@@ -31,6 +31,10 @@ public class LdapSampleService {
                 public People map( Entry entry ) throws LdapException {
                     People p = new People();
                     p.setFullName(entry.get("cn").getString());
+                    p.setMail(entry.get("mail").getString());
+                    p.setUidNumber(Integer.parseInt(entry.get("uidNumber").getString()));
+                    p.setGidNumber(Integer.parseInt(entry.get("gidNumber").getString()));
+                    p.setHomeDirectory(entry.get("homeDirectory").getString());
                     return p;
                 }
             };
@@ -74,7 +78,7 @@ public class LdapSampleService {
                                 "(&(cn=" + search.getCn() + ")(mail=" + search.getMail() + "))",
                                        SearchScope.SUBTREE,
                                        peopleEntryMapper);
-        
+
         return peopleList;
     }
 }

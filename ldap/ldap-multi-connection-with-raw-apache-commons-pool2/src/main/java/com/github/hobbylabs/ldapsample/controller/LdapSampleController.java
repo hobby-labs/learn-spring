@@ -1,40 +1,24 @@
 package com.github.hobbylabs.ldapsample.controller;
 
 import com.github.hobbylabs.ldapsample.data.People;
-import com.github.hobbylabs.ldapsample.data.request.Query;
 import com.github.hobbylabs.ldapsample.data.request.RequestQueryRoot;
-import com.github.hobbylabs.ldapsample.data.request.Search;
 import lombok.AllArgsConstructor;
-import org.apache.commons.pool2.impl.GenericKeyedObjectPool;
-import org.apache.directory.ldap.client.template.LdapConnectionTemplate;
-import org.apache.directory.ldap.client.template.exception.PasswordException;
 import org.springframework.web.bind.annotation.*;
-
-import org.apache.commons.pool2.impl.GenericKeyedObjectPoolConfig;
 
 import com.github.hobbylabs.ldapsample.service.LdapSampleService;
 
 import java.util.List;
 
-import org.apache.directory.ldap.client.api.LdapConnectionConfig;
-import org.apache.directory.ldap.client.api.DefaultPoolableLdapConnectionFactory;
-import org.apache.directory.ldap.client.api.LdapConnectionPool;
-import org.apache.directory.ldap.client.template.PasswordWarning;
-
-import org.apache.directory.api.ldap.model.message.SearchScope;
-
 @RestController
-@AllArgsConstructor
+//@AllArgsConstructor
 @RequestMapping("/api/v1")
 public class LdapSampleController {
 
-    private Object ldapConnectionPool;
-
     private final LdapSampleService ldapSampleService;
 
-    LdapConnectionTemplate ldapConnectionTemplate;
+    public LdapSampleController(LdapSampleService ldapSampleService) {
+        this.ldapSampleService = ldapSampleService;
 
-    public LdapSampleController() {
 //        // https://www.programcreek.com/java-api-examples/?api=org.apache.commons.pool2.impl.GenericKeyedObjectPoolConfig
 //
 //        GenericKeyedObjectPoolConfig objectPoolConfig = new GenericKeyedObjectPoolConfig();
@@ -71,7 +55,7 @@ public class LdapSampleController {
 //        keyedObjectPool = new GenericKeyedObjectPool<Object, Object>(dirContextPooledObjectFactory, objectPoolConfig);
     }
 
-    @GetMapping(value = {"/getLdapData"})
+    @PostMapping(value = {"/getLdapData"})
     public List<People> getLdapData(@RequestBody RequestQueryRoot requestedQueryRoot) {
         List<People> peopleList = ldapSampleService.getLdapDataByQuery(requestedQueryRoot);
         return peopleList;
