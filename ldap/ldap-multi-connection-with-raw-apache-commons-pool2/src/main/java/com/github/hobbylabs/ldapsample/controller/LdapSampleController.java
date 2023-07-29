@@ -69,39 +69,12 @@ public class LdapSampleController {
 //        protected final GenericKeyedObjectPool<Object,Object> keyedObjectPool;
 //
 //        keyedObjectPool = new GenericKeyedObjectPool<Object, Object>(dirContextPooledObjectFactory, objectPoolConfig);
-
-        String status = "";
-
-        LdapConnectionConfig config = new LdapConnectionConfig();
-        config.setLdapHost("localhost");
-        config.setLdapPort(389);
-        config.setName("cn=Manager,dc=mysite,dc=example,dc=com");
-        config.setCredentials("secret");
-        final DefaultPoolableLdapConnectionFactory factory = new DefaultPoolableLdapConnectionFactory(config);
-        final LdapConnectionPool pool = new LdapConnectionPool(factory);
-        pool.setTestOnBorrow(true);
-
-        final LdapConnectionTemplate ldapConnectionTemplate = new LdapConnectionTemplate(pool);
-
-        // public PasswordWarning authenticate(org.apache.directory.api.ldap.model.name.Dn userDn, char[] password) throws PasswordException
-        try {
-            final PasswordWarning warning = ldapConnectionTemplate.authenticate(ldapConnectionTemplate.newDn("cn=Manager,dc=mysite,dc=example,dc=com"), "secret".toCharArray());
-            status = "User credentials authenticated";
-            if (warning != null) {
-                status = status + " \n Warning!!" +warning.toString();
-            }
-        } catch (Exception e) {
-            status = e.toString();
-            e.printStackTrace();
-        }
-
-        System.out.println("Status of authenticating a user: " + status);
     }
 
     @GetMapping(value = {"/getLdapData"})
     public List<People> getLdapData(@RequestBody RequestQueryRoot requestedQueryRoot) {
-        People people = ldapSampleService.getLdapDataByQuery(requestedQueryRoot);
-        return ldapConnectionTemplate.search(ldapConnectionTemplate.newDn("ou=People,dc=mysite,dc=example,dc=com"), "(mail=" +  + ")", );
+        List<People> peopleList = ldapSampleService.getLdapDataByQuery(requestedQueryRoot);
+        return peopleList;
     }
 
 //    @PostMapping(value = {"/getLdapData"})
