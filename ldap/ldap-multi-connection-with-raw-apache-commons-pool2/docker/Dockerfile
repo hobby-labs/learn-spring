@@ -13,8 +13,11 @@ ENV CONFIG_PASSWORD=$CONFIG_PASSWORD
 ENV MANAGER_PASSWORD=$MANAGER_PASSWORD
 ENV DOMAIN=$DOMAIN
 
-# Set root config informations
-RUN /usr/sbin/slapd -h 'ldap:/// ldapi:///' -g openldap -u openldap -F /etc/ldap/slapd.d \
+# Set root config informations.
+# This instruction will run ulimit before launching slapd to avoid an error.
+# https://stackoverflow.com/a/76332860
+RUN ulimit -n 1024 && \
+    /usr/sbin/slapd -h 'ldap:/// ldapi:///' -g openldap -u openldap -F /etc/ldap/slapd.d \
     && sleep 2 \
     && echo "\
 dn: olcDatabase={0}config,cn=config\n\
@@ -127,6 +130,7 @@ mail: hanako-suzuki@${DOMAIN}" | ldapadd -x -D "cn=Manager,${__DOMAIN_COMPONENT_
     && ldapwhoami -w secret -D "uid=taro-suzuki,ou=People,${__DOMAIN_COMPONENT__}" \
     && ldapwhoami -w secret -D "uid=hanako-suzuki,ou=People,${__DOMAIN_COMPONENT__}"
 
-ENTRYPOINT ["/usr/sbin/slapd"]
-CMD ["-h", "ldap:/// ldapi:///", "-g", "openldap", "-u", "openldap", "-F", "/etc/ldap/slapd.d", "-d", "3"]
+COPY entrypoint.sh /opt
+
+ENTRYPOINT ["/opt/entrypoint.sh"]
 
