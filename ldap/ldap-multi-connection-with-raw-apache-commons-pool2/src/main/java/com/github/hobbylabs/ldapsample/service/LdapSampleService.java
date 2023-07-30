@@ -3,6 +3,7 @@ package com.github.hobbylabs.ldapsample.service;
 import com.github.hobbylabs.ldapsample.data.People;
 import com.github.hobbylabs.ldapsample.data.request.RequestQueryRoot;
 import com.github.hobbylabs.ldapsample.data.request.Search;
+
 import org.apache.directory.api.ldap.model.entry.Entry;
 import org.apache.directory.api.ldap.model.exception.LdapException;
 import org.apache.directory.api.ldap.model.message.SearchScope;
@@ -10,10 +11,10 @@ import org.apache.directory.ldap.client.api.DefaultPoolableLdapConnectionFactory
 import org.apache.directory.ldap.client.api.LdapConnectionConfig;
 import org.apache.directory.ldap.client.api.LdapConnectionPool;
 import org.apache.directory.ldap.client.template.EntryMapper;
-import org.apache.directory.ldap.client.template.LdapConnectionTemplate;
 import org.apache.directory.ldap.client.template.PasswordWarning;
-import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.stereotype.Service;
+
+import org.apache.directory.ldap.client.template.LdapConnectionTemplate;
 
 import com.github.hobbylabs.ldapsample.service.LdapSampleService;
 
@@ -51,6 +52,10 @@ public class LdapSampleService {
         final DefaultPoolableLdapConnectionFactory factory = new DefaultPoolableLdapConnectionFactory(config);
         final LdapConnectionPool pool = new LdapConnectionPool(factory);
         pool.setTestOnBorrow(true);
+        pool.setMinIdle(256);
+        pool.setMaxIdle(256);
+        pool.setBlockWhenExhausted(true);
+        pool.setMaxTotal(256);
 
         ldapConnectionTemplate = new LdapConnectionTemplate(pool);
 
@@ -71,13 +76,14 @@ public class LdapSampleService {
 
 
     public List<People> getLdapDataByQuery(RequestQueryRoot requestedQueryRoot) {
-        Search search = requestedQueryRoot.getQuery().getSearch();
-
+        return getLdapDataBySearchObject(requestedQueryRoot.getQuery().getSearch());
+    }
+    public List<People> getLdapDataBySearchObject(Search search) {
         List<People> peopleList  = ldapConnectionTemplate.search(
-                                       ldapConnectionTemplate.newDn("ou=People,dc=mysite,dc=example,dc=com"),
-                                "(&(cn=" + search.getCn() + ")(mail=" + search.getMail() + "))",
-                                       SearchScope.SUBTREE,
-                                       peopleEntryMapper);
+                ldapConnectionTemplate.newDn("ou=People,dc=mysite,dc=example,dc=com"),
+                "(&(cn=" + search.getCn() + ")(mail=" + search.getMail() + "))",
+                SearchScope.SUBTREE,
+                peopleEntryMapper);
 
         return peopleList;
     }
