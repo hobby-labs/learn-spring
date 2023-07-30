@@ -38,12 +38,20 @@ add: olcRootDN" | ldapadd -Y EXTERNAL -H ldapi:/// \
 
 # Set monitor DB (skipped on ubuntu)
 
-# Set database information and basic data
+# Set database information and basic data.
+# Some explanations are below
+#   olcDbMaxSize: 107374182400
+#     -> Increate max size of database to 100GiB.
 RUN ulimit -n 1024 \
     && /usr/sbin/slapd -h 'ldap:/// ldapi:///' -g openldap -u openldap -F /etc/ldap/slapd.d \
     && sleep 2 \
     && __DOMAIN_COMPONENT__=$(echo "dc=$(echo ${DOMAIN} | sed -e 's|\.|,dc=|g')") \
     && __DC_DOMAIN__=$(echo "${DOMAIN}") \
+    && echo "\
+dn: olcDatabase={1}mdb,cn=config\n\
+changetype: modify\n\
+replace: olcDbMaxSize\n\
+olcDbMaxSize: 107374182400" | ldapmodify -Y EXTERNAL -H ldapi:/// \
     && echo "\
 dn: olcDatabase={1}mdb,cn=config\n\
 changetype: modify\n\
@@ -99,7 +107,7 @@ cn: sales\n\
 gidNumber: 1002\n\
 \n\
 # Users =====================================================================================================\n\
-# Taro Suzuki. password: 'secret'
+# Taro Suzuki. password: 'secret'\n\
 dn: uid=taro-suzuki,ou=People,${__DOMAIN_COMPONENT__}\n\
 objectClass: posixAccount\n\
 objectClass: inetOrgPerson\n\
