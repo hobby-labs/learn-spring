@@ -104,6 +104,49 @@
 	</build>
 
 	<!--
+		Settings for GitHub Packages Maven Repository.
+		Replace OWNER with your GitHub username or organization name.
+		Replace REPOSITORY with your GitHub repository name.
+		You need to set credentials in your settings.xml with a GitHub personal access token
+		that has write:packages permission, then run `mvn deploy`.
+		You can see details at below page.
+		https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-apache-maven-registry
+	-->
+	<!--
+      // You can set your GitHub credentials in your ~/.ms/settings.xml file like below.
+	  // Make sure to replace YOUR_GITHUB_USERNAME and YOUR_PERSONAL_ACCESS_TOKEN with your actual GitHub username and a personal access token.
+	  // How to create a GitHub Personal Access Token:
+      //   Go to GitHub → Settings → Developer settings → Personal access tokens
+      //   Create a token with write:packages permission.
+
+      <settings>
+        <servers>
+          <server>
+            <id>github</id>
+            <username>YOUR_GITHUB_USERNAME</username>
+            <password>YOUR_PERSONAL_ACCESS_TOKEN</password>
+          </server>
+        </servers>
+      </settings>
+	-->
+	<repositories>
+		<repository>
+			<id>github</id>
+			<url>https://maven.pkg.github.com/OWNER/REPOSITORY</url>
+		</repository>
+	</repositories>
+	<distributionManagement>
+		<repository>
+			<id>github</id>
+			<url>https://maven.pkg.github.com/OWNER/REPOSITORY</url>
+		</repository>
+		<snapshotRepository>
+			<id>github</id>
+			<url>https://maven.pkg.github.com/OWNER/REPOSITORY</url>
+		</snapshotRepository>
+	</distributionManagement>
+
+	<!--
 		Settings for GitLab Maven Repository (personal access token's method).
 		Replace the FQDN(gitlab.com) to your own if you are hosting GitLab on your environment.
 		And replace PROJECT_ID to your GitLab project's one.
@@ -112,6 +155,8 @@
 		You can see details at below page.
 		https://docs.gitlab.com/ee/user/packages/maven_repository/
 	-->
+	<!--
+
 	<repositories>
 		<repository>
 			<id>gitlab-maven</id>
@@ -128,6 +173,7 @@
 			<url>https://gitlab.com/api/v4/projects/PROJECT_ID/packages/maven</url>
 		</snapshotRepository>
 	</distributionManagement>
+	-->
 
 	<!--
 		Settings for Azure Artifact.
