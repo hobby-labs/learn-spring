@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.github.hobbylabs.spring.learnspringmodule.service.LearnSpringModuleService;
+import com.github.hobbylabs.learn_spring.modules.make_private_spring_module.service.LearnSpringModuleService;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -26,8 +26,7 @@ public class DemoController {
     public DemoResponse hello() {
         DemoResponse response = new DemoResponse();
         response.setId(1);
-        response.setMessage1(learnSpringModuleService.getHelloWorld());
-        response.setMessage2(learnSpringModuleService.message());
+        response.setMessage1(learnSpringModuleService.exec());
 
         return response;
     }
