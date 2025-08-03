@@ -12,7 +12,7 @@ Put the jar file into the directory that belonging to the class path of your ano
 Then put an annotation in the main class like below to be able to find the jar file.
 
 ```
-@SpringBootApplication(scanBasePackages = "com.github.hobbylabs.spring.learnspringmodule")
+@SpringBootApplication(scanBasePackages = "com.github.hobbylabs.learn_spring.modules.make_private_spring_module")
 @SpringBootApplication
 public class AnotherSpringBootApplication {
     public static void main(String[] args) {
