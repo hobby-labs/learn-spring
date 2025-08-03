@@ -1,0 +1,10 @@
+version: '3'
+services:
+  ldap:
+    container_name: spring_boot_ldap
+    build:
+      context: ./docker/
+      dockerfile: Dockerfile
+    ports:
+      - "389:389"
+

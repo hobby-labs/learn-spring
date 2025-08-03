@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:ldap="http://www.springframework.org/schema/ldap"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/ldap https://www.springframework.org/schema/ldap/spring-ldap.xsd">
+
+    <context:property-placeholder location="classpath:/ldap.properties" />
+
+    <ldap:context-source id="contextSource"
+                         password="${sample.ldap.password}"
+                         url="${sample.ldap.url}"
+                         username="${sample.ldap.bindDn}"
+                         >
+        <!-- Pooling options are at https://docs.spring.io/spring-ldap/docs/2.3.0.BUILD-SNAPSHOT/reference/html/pooling.html#pool2-configuration -->
+        <ldap:pooling2 min-idle-per-key="2" eviction-run-interval-millis="60000" />
+    </ldap:context-source>
+
+    <ldap:ldap-template id="ldapTemplate" context-source-ref="contextSource"/>
+</beans>
