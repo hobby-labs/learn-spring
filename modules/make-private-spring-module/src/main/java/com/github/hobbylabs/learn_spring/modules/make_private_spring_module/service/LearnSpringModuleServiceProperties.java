@@ -1,4 +1,4 @@
-package com.github.hobbylabs.spring.learnspringmodule.service;
+package com.github.hobbylabs.learn_spring.modules.make_private_spring_module.service;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

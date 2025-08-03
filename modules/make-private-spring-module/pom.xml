@@ -8,11 +8,43 @@
 		<version>2.2.9.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.github.hobbylabs.spring</groupId>
-	<artifactId>learnspringmodule</artifactId>
+
+	<!-- 
+	MAVEN NAMING CONVENTIONS SUMMARY:
+	
+	1. groupId: 
+	   - Should be ALL LOWERCASE (same as Java package conventions)
+	   - Use reverse domain notation: com.github.username
+	   - Represents your organization/namespace
+	   - Reusable across multiple projects
+	   - Example: com.github.hobbylabs.learn_spring.modules
+	
+	2. artifactId:
+	   - Should use kebab-case (hyphens preferred) or snake_case (underscores)
+	   - Represents this specific project
+	   - Used in JAR file names and URLs
+	   - Example: make-private-spring-module
+	
+	3. name:
+	   - Human-readable display name with proper capitalization and spaces
+	   - Shown in IDEs, documentation, and reports
+	   - Example: "Demo of Making Private Spring ModuleSpring Boot Batch Demo"
+	
+	4. Java Package Relationship:
+	   - Package should be: groupId + artifactId (with underscores for Java naming)
+	   - Example: com.github.tsutomunakamura.spring_boot_batch_demo
+	   - Note: Java packages must use underscores, not hyphens
+	
+	5. Final Maven Coordinate:
+	   - Format: groupId:artifactId:version
+	   - Example: com.github.tsutomunakamura:spring-boot-batch-demo:0.0.1-SNAPSHOT
+	-->
+
+	<groupId>com.github.hobbylabs.learn_spring.modules</groupId>
+	<artifactId>make_private_spring_module</artifactId>
 	<version>0.0.7-SNAPSHOT</version>
-	<name>learnspringmodule</name>
-	<description>Demo project for Spring Boot</description>
+	<name>Private Spring Module Demo</name>
+	<description>Demo of Making Private Spring Module</description>
 
 	<properties>
 		<java.version>1.8</java.version>
