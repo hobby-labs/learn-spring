@@ -42,7 +42,7 @@
 
 	<groupId>com.github.hobbylabs.learn_spring.modules</groupId>
 	<artifactId>make_private_spring_module</artifactId>
-	<version>0.1.0</version>
+	<version>0.2.0</version>
 	<name>Private Spring Module Demo</name>
 	<description>Demo of Making Private Spring Module</description>
 
