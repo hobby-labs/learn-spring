@@ -48,9 +48,9 @@
 		</dependency>
 
 		<dependency>
-			<groupId>com.github.hobbylabs.spring</groupId>
-			<artifactId>learnspringmodule</artifactId>
-			<version>0.0.7-SNAPSHOT</version>
+			<groupId>com.github.hobbylabs.learn_spring.modules</groupId>
+			<artifactId>make_private_spring_module</artifactId>
+			<version>0.1.0</version>
 		</dependency>
 	</dependencies>
 
@@ -63,6 +63,20 @@
 		</plugins>
 	</build>
 
+	<!-- GitHub Package Registry Configuration -->
+	<repositories>
+		<repository>
+			<id>github</id>
+			<url>https://maven.pkg.github.com/hobby-labs/learn-spring</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+
 	<!--
 		Settings for GitLab Maven Repository (personal access token's method).
 		Replace the FQDN(gitlab.com) to your own if you are hosting GitLab on your environment.
@@ -72,6 +86,7 @@
 		You can see details at below page.
 		https://docs.gitlab.com/ee/user/packages/maven_repository/
 	-->
+	<!--
 	<repositories>
 		<repository>
 			<id>gitlab-maven</id>
@@ -88,6 +103,7 @@
 			<url>https://gitlab.com/api/v4/projects/PROJECT_ID/packages/maven</url>
 		</snapshotRepository>
 	</distributionManagement>
+	-->
 
 	<!--
 		Settings for Azure Artifact.
