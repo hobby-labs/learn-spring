@@ -37,12 +37,12 @@
 	
 	5. Final Maven Coordinate:
 	   - Format: groupId:artifactId:version
-	   - Example: com.github.tsutomunakamura:spring-boot-batch-demo:0.0.1-SNAPSHOT
+	   - Example: com.github.tsutomunakamura:spring-boot-batch-demo:0.1.0
 	-->
 
 	<groupId>com.github.hobbylabs.learn_spring.modules</groupId>
 	<artifactId>make_private_spring_module</artifactId>
-	<version>0.0.7-SNAPSHOT</version>
+	<version>0.1.0</version>
 	<name>Private Spring Module Demo</name>
 	<description>Demo of Making Private Spring Module</description>
 
@@ -116,7 +116,7 @@
       // You can set your GitHub credentials in your ~/.ms/settings.xml file like below.
 	  // Make sure to replace YOUR_GITHUB_USERNAME and YOUR_PERSONAL_ACCESS_TOKEN with your actual GitHub username and a personal access token.
 	  // How to create a GitHub Personal Access Token:
-      //   Go to GitHub → Settings → Developer settings → Personal access tokens
+      //   Go to GitHub → Settings → Developer settings → Personal access tokens (classic)
       //   Create a token with write:packages permission.
 
       <settings>
@@ -132,17 +132,17 @@
 	<repositories>
 		<repository>
 			<id>github</id>
-			<url>https://maven.pkg.github.com/OWNER/REPOSITORY</url>
+			<url>https://maven.pkg.github.com/hobby-labs/learn-spring</url>
 		</repository>
 	</repositories>
 	<distributionManagement>
 		<repository>
 			<id>github</id>
-			<url>https://maven.pkg.github.com/OWNER/REPOSITORY</url>
+			<url>https://maven.pkg.github.com/hobby-labs/learn-spring</url>
 		</repository>
 		<snapshotRepository>
 			<id>github</id>
-			<url>https://maven.pkg.github.com/OWNER/REPOSITORY</url>
+			<url>https://maven.pkg.github.com/hobby-labs/learn-spring</url>
 		</snapshotRepository>
 	</distributionManagement>
 
