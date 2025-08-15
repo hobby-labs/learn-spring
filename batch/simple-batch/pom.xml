@@ -40,11 +40,11 @@
 	   - Example: com.github.tsutomunakamura:spring-boot-batch-demo:0.0.1-SNAPSHOT
 	-->
 	
-	<groupId>com.github.tsutomunakamura</groupId>
-	<artifactId>spring-boot-batch-demo</artifactId>
+	<groupId>com.github.hobbylabs.learnspring.batch</groupId>
+	<artifactId>simple-batch</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Spring Boot Batch Demo</name>
-	<description>Demo project for Spring Boot</description>
+	<name>simple-batch</name>
+	<description>Demo project for Spring Boot Batch</description>
 	<url/>
 	<licenses>
 		<license/>
