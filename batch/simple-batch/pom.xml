@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>3.5.3</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+	
+	<!-- 
+	MAVEN NAMING CONVENTIONS SUMMARY:
+	
+	1. groupId: 
+	   - Should be ALL LOWERCASE (same as Java package conventions)
+	   - Use reverse domain notation: com.github.username
+	   - Represents your organization/namespace
+	   - Reusable across multiple projects
+	   - Example: com.github.tsutomunakamura
+	
+	2. artifactId:
+	   - Should use kebab-case (hyphens preferred) or snake_case (underscores)
+	   - Represents this specific project
+	   - Used in JAR file names and URLs
+	   - Example: spring-boot-batch-demo
+	
+	3. name:
+	   - Human-readable display name with proper capitalization and spaces
+	   - Shown in IDEs, documentation, and reports
+	   - Example: "Spring Boot Batch Demo"
+	
+	4. Java Package Relationship:
+	   - Package should be: groupId + artifactId (with underscores for Java naming)
+	   - Example: com.github.tsutomunakamura.spring_boot_batch_demo
+	   - Note: Java packages must use underscores, not hyphens
+	
+	5. Final Maven Coordinate:
+	   - Format: groupId:artifactId:version
+	   - Example: com.github.tsutomunakamura:spring-boot-batch-demo:0.0.1-SNAPSHOT
+	-->
+	
+	<groupId>com.github.tsutomunakamura</groupId>
+	<artifactId>spring-boot-batch-demo</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>Spring Boot Batch Demo</name>
+	<description>Demo project for Spring Boot</description>
+	<url/>
+	<licenses>
+		<license/>
+	</licenses>
+	<developers>
+		<developer/>
+	</developers>
+	<scm>
+		<connection/>
+		<developerConnection/>
+		<tag/>
+		<url/>
+	</scm>
+	<properties>
+		<java.version>17</java.version>
+	</properties>
+	<dependencies>
+		<!-- 
+		DEPENDENCY SELECTION FOR BATCH APPLICATIONS:
+		
+		- spring-boot-starter-batch: Core Spring Batch functionality
+		- h2: In-memory database for batch metadata and data processing
+		- spring-boot-starter-test: Testing framework
+		- spring-batch-test: Batch-specific testing utilities
+		
+		NOTE: We do NOT include spring-boot-starter-web because:
+		- Batch applications don't need HTTP endpoints
+		- Avoids starting Tomcat server unnecessarily
+		- Results in faster startup and lower memory usage
+		- Creates pure command-line application that exits when done
+		-->
+		
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-batch</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.batch</groupId>
+			<artifactId>spring-batch-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			
+			<!-- JaCoCo Plugin for Test Coverage -->
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.12</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>report</id>
+						<phase>test</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
